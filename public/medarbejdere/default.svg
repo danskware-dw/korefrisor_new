@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-label="Frisør">
+  <rect width="320" height="320" fill="#E8F0EC"/>
+  <circle cx="160" cy="118" r="58" fill="#1F4B3A"/>
+  <path d="M70 290c18-70 54-100 90-100s72 30 90 100" fill="#1F4B3A"/>
+  <circle cx="160" cy="118" r="28" fill="#F4EFE6"/>
+</svg>
