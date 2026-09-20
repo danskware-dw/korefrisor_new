@@ -181,3 +181,18 @@ telefon øverst på hver side. Gør ikke skriften mindre.
 - Kundens eget link til at flytte eller aflyse
 - Automatisk overførsel til Google Calendar
 - Dine egne billeder og udfyldte `[RET DETTE]`-felter
+
+---
+
+## Klar til at gå live?
+
+Se **[DEPLOY.md](./DEPLOY.md)** for en komplet tjekliste over, hvad du skal udfylde og opsætte før du sætter siden i drift:
+
+- ✅ Rigtige kontaktoplysninger (telefon, e-mail, MobilePay-nummer)
+- ✅ Database-opsætning (PostgreSQL i stedet for filer)
+- ✅ Miljøvariabler (passwords, API-nøgler)
+- ✅ Domæne og DNS
+- ✅ Test af bookingflow
+- ✅ Egne billeder
+
+**Vigtigt:** Siden har i øjeblikket placeholder-værdier markeret `[RET DETTE: ...]`, som ikke vises på hjemmesiden, men skal udfyldes i admin-indstillingerne før drift.

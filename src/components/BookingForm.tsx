@@ -9,6 +9,7 @@ import { EmployeeChoice } from "@/components/EmployeeChoice";
 import { QuoteBreakdown } from "@/components/QuoteBreakdown";
 import {
   FieldError,
+  LoadingSpinner,
   StepActions,
   StepBox,
   StepHeading,
@@ -272,34 +273,34 @@ export function BookingForm({
   function tryAdvance() {
     const nextErrors: Record<string, string> = {};
     if (step === 1 && !hasPrimary) {
-      nextErrors.serviceIds = "Vælg et klip. Skæg, pandehår og bryn er tillæg.";
+      nextErrors.serviceIds = "Du skal vælge mindst ét klip (fx klip, pensionistklip eller børneklip). Skæg, pandehår og bryn er tillæg, der bookes sammen med et klip.";
     }
     if (step === 1 && extras.length > 0 && !extrasReady) {
-      nextErrors.serviceIds = "Vælg et klip til hver ekstra person.";
+      nextErrors.serviceIds = "Husk at vælge et klip til hver ekstra person, du har tilføjet.";
     }
     if (step === 2 && !employeeId) {
-      nextErrors.employeeId = "Vælg hvem der skal komme.";
+      nextErrors.employeeId = "Vælg hvem der skal komme ud til dig.";
     }
     if (step === 3 && !address) {
-      nextErrors.address = "Vælg din adresse fra listen med forslag.";
+      nextErrors.address = "Skriv din adresse, og vælg den fra listen med forslag, der kommer fra Danmarks Adresseregister.";
     }
     if (step === 3 && address && quote && !quote.withinServiceArea) {
-      nextErrors.address = "Adressen ligger uden for mit område. Ring til mig, så finder vi en løsning.";
+      nextErrors.address = `Din adresse ligger ${quote.distanceKm} km væk, og det er desværre længere, end jeg normalt kører. Ring til mig på ${phone}, så finder vi ud af, om det kan lade sig gøre alligevel.`;
     }
     if (step === 3 && address && !quote && !failed.quote) {
       return;
     }
-    if (step === 3 && !date) nextErrors.date = "Vælg en dato.";
-    if (step === 3 && !time) nextErrors.time = "Vælg et tidspunkt.";
+    if (step === 3 && !date) nextErrors.date = "Vælg en dag, hvor det passer dig.";
+    if (step === 3 && !time) nextErrors.time = "Vælg et tidspunkt fra de ledige tider.";
     if (step === 4) {
       if (forRelative) {
-        if (clientName.trim().length < 2) nextErrors.clientName = "Skriv navnet på den, der skal klippes.";
-        if (relativeName.trim().length < 2) nextErrors.relativeName = "Skriv dit navn.";
+        if (clientName.trim().length < 2) nextErrors.clientName = "Skriv navnet på den, der skal klippes (fx dit barn, din mor eller far).";
+        if (relativeName.trim().length < 2) nextErrors.relativeName = "Skriv dit eget navn, så jeg ved, hvem jeg skal ringe til.";
       } else if (customer.name.trim().length < 2) {
-        nextErrors.name = "Skriv dit navn.";
+        nextErrors.name = "Skriv dit fulde navn.";
       }
-      if (!isDanishPhone(customer.phone)) nextErrors.phone = "Skriv et dansk telefonnummer på 8 cifre.";
-      if (!isEmail(customer.email)) nextErrors.email = "Skriv en gyldig e-mailadresse.";
+      if (!isDanishPhone(customer.phone)) nextErrors.phone = "Skriv et gyldigt dansk telefonnummer med 8 cifre (fx 12 34 56 78 eller +45 12 34 56 78).";
+      if (!isEmail(customer.email)) nextErrors.email = "Skriv en gyldig e-mailadresse, så jeg kan sende bekræftelse og påmindelse.";
     }
     if (Object.keys(nextErrors).length > 0) {
       setErrors(nextErrors);
@@ -537,9 +538,10 @@ export function BookingForm({
           type="button"
           disabled={submitting}
           onClick={confirmPaid}
-          className="mt-8 inline-flex w-full items-center justify-center rounded-lg bg-accent px-8 py-5 text-xl font-bold text-white hover:bg-accent-dark disabled:opacity-60"
+          className="mt-8 inline-flex w-full items-center justify-center gap-3 rounded-lg bg-accent px-8 py-5 text-xl font-bold text-white hover:bg-accent-dark disabled:opacity-60"
         >
-          {submitting ? "Bekræfter …" : "Jeg har betalt med MobilePay"}
+          {submitting && <LoadingSpinner size="sm" />}
+          <span>{submitting ? "Bekræfter …" : "Jeg har betalt med MobilePay"}</span>
         </button>
         {errors.form && <FieldError>{errors.form}</FieldError>}
       </div>
@@ -809,9 +811,10 @@ export function BookingForm({
 
           <div aria-live="polite" className="mt-6">
             {quoteLoading && (
-              <p className="rounded-card border border-line bg-surface px-6 py-5 text-ink-soft">
-                Regner afstand og pris ud …
-              </p>
+              <div className="flex items-center gap-3 rounded-card border border-line bg-surface px-6 py-5 text-lg text-ink-soft">
+                <LoadingSpinner />
+                <span>Regner afstand og pris ud …</span>
+              </div>
             )}
 
             {failed.quote && (
@@ -886,7 +889,12 @@ export function BookingForm({
               {errors.date && <FieldError>{errors.date}</FieldError>}
 
               <div aria-live="polite" className="mt-6">
-                {slotsLoading && <p className="text-ink-soft">Finder ledige tider …</p>}
+                {slotsLoading && (
+                  <div className="flex items-center gap-3 text-lg text-ink-soft">
+                    <LoadingSpinner />
+                    <span>Finder ledige tider …</span>
+                  </div>
+                )}
 
                 {failed.slots && (
                   <FieldError>
@@ -1183,13 +1191,16 @@ export function BookingForm({
             <button
               type="submit"
               disabled={submitting || !time || !employeeId || !quote?.withinServiceArea}
-              className="inline-flex min-h-14 flex-1 items-center justify-center rounded-lg bg-accent px-8 py-4 text-xl font-bold text-white hover:bg-accent-dark disabled:cursor-not-allowed disabled:bg-ink-soft disabled:opacity-60"
+              className="inline-flex min-h-14 flex-1 items-center justify-center gap-3 rounded-lg bg-accent px-8 py-4 text-xl font-bold text-white hover:bg-accent-dark disabled:cursor-not-allowed disabled:bg-ink-soft disabled:opacity-60"
             >
-              {submitting
-                ? "Sender …"
-                : payWhen === "now"
-                  ? "Betal med MobilePay og book"
-                  : "Book og send faktura"}
+              {submitting && <LoadingSpinner size="sm" />}
+              <span>
+                {submitting
+                  ? "Sender …"
+                  : payWhen === "now"
+                    ? "Betal med MobilePay og book"
+                    : "Book og send faktura"}
+              </span>
             </button>
           </div>
           <p className="mt-3 text-center text-ink-soft">
