@@ -213,7 +213,11 @@ export async function cancelMobilePay(reference: string): Promise<boolean> {
   return response.ok;
 }
 
-export function verifyVippsWebhook(request: Request, rawBody: string): boolean {
+export function verifyVippsWebhook(
+  request: Request,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _rawBody: string,
+): boolean {
   const secret = process.env.MOBILEPAY_WEBHOOK_SECRET;
   if (!secret) return true;
   const header = request.headers.get("authorization") ?? request.headers.get("x-vipps-authorization") ?? "";
