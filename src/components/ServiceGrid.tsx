@@ -26,7 +26,7 @@ export function ServiceGrid({
         ))}
       </ul>
       {addons.length > 0 && (
-        <div>
+        <div className="rounded-[1.5rem] border border-line bg-canvas p-5 sm:p-6">
           <h3 className="text-2xl font-bold">Tillæg til klippet</h3>
           <p className="mt-2 text-ink-soft">
             Vælges sammen med et klip. I betaler kun kørsel én gang.
@@ -57,7 +57,7 @@ function ServiceCard({ service, phone }: { service: Service; phone: string }) {
   const contactOnly = Boolean(service.contactOnly);
 
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-card border border-line bg-surface">
+    <article className="flex h-full flex-col overflow-hidden rounded-[1.25rem] border border-line bg-surface shadow-sm transition-shadow hover:shadow-md">
       <Image
         src={service.image}
         alt={service.imageAlt}
@@ -67,11 +67,18 @@ function ServiceCard({ service, phone }: { service: Service; phone: string }) {
         className="aspect-4/3 w-full object-cover"
       />
 
-      <div className="flex flex-1 flex-col gap-3 p-6">
-        <h3 className="text-xl font-bold">{service.name}</h3>
+      <div className="flex flex-1 flex-col gap-4 p-6">
+        <div className="flex items-start justify-between gap-3">
+          <h3 className="text-xl font-bold">{service.name}</h3>
+          {service.addon && (
+            <span className="rounded-full bg-brand-light px-3 py-1 text-sm font-bold text-brand">
+              Tillæg
+            </span>
+          )}
+        </div>
         <p className="flex-1 text-ink-soft">{service.description}</p>
 
-        <dl className="flex items-baseline justify-between gap-4 border-t border-line pt-4">
+        <dl className="flex items-baseline justify-between gap-4 rounded-xl bg-canvas px-4 py-3">
           <div>
             <dt className="sr-only">Pris</dt>
             <dd className="text-2xl font-bold tabular-nums">
@@ -89,7 +96,7 @@ function ServiceCard({ service, phone }: { service: Service; phone: string }) {
             <Link
               href="/book/plejehjem"
               data-btn
-              className="inline-flex items-center justify-center rounded-lg bg-accent px-5 py-3 font-semibold text-white hover:bg-accent-dark"
+              className="inline-flex items-center justify-center rounded-xl bg-accent px-5 py-3 font-bold text-white hover:bg-accent-dark"
             >
               Book plejehjemsbesøg
             </Link>
@@ -106,7 +113,7 @@ function ServiceCard({ service, phone }: { service: Service; phone: string }) {
           <Link
             href={`/book?behandling=${service.id}`}
             data-btn
-            className="inline-flex items-center justify-center rounded-lg bg-accent px-5 py-3 font-semibold text-white hover:bg-accent-dark"
+            className="inline-flex items-center justify-center rounded-xl bg-accent px-5 py-3 font-bold text-white hover:bg-accent-dark"
           >
             Book {service.addon ? "som tillæg" : service.name.toLowerCase()}
           </Link>

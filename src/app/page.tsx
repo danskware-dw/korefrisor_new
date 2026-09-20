@@ -36,6 +36,14 @@ const targetGroup = [
   "Dig, der bare hellere vil sidde i din egen stue",
 ];
 
+const heroTrust = [
+  "Pris vises før booking",
+  "Gratis kørsel inden for 5 km",
+  "MobilePay ved booking",
+];
+
+const heroAreas = ["Kastrup", "Tårnby", "Dragør", "Amager"];
+
 export default async function Home() {
   const config = await getConfig();
   const tel = config.phone.replace(/\s/g, "");
@@ -44,56 +52,114 @@ export default async function Home() {
   return (
     <>
       <section className="bg-surface">
-        <div className="mx-auto grid max-w-5xl gap-10 px-4 py-16 md:grid-cols-2 md:items-center md:py-20">
+        <div className="mx-auto grid max-w-5xl gap-10 px-4 py-12 md:grid-cols-[1.08fr_0.92fr] md:items-center md:py-20">
           <div>
-            <p className="font-semibold text-accent">
+            <p className="inline-flex rounded-full bg-brand-light px-4 py-2 text-sm font-bold uppercase tracking-[0.12em] text-brand">
               Udekørende frisør i {config.home.city} og omegn
             </p>
-            <h1 className="mt-3 text-4xl font-bold sm:text-5xl">{homeSeo.h1}</h1>
-            <p className="mt-5 text-xl text-ink-soft">{homeSeo.paragraphs[0]}</p>
-            <p className="mt-4 text-lg text-ink-soft">{homeSeo.paragraphs[1]}</p>
+            <h1 className="mt-5 text-4xl font-bold sm:text-5xl lg:text-6xl">
+              {homeSeo.h1}
+            </h1>
+            <p className="mt-5 text-xl text-ink-soft">
+              Hjemmeklip for ældre, børn og dig der helst vil blive hjemme — med fast
+              pris, synlig kørsel og rolig behandling i din egen stol.
+            </p>
+
+            <ul className="mt-6 grid gap-3 text-lg sm:grid-cols-3">
+              {heroTrust.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-2 rounded-card border border-line bg-canvas px-4 py-3 font-semibold text-ink"
+                >
+                  <CheckIcon />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
 
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 href="/book"
                 data-btn
-                className="inline-flex items-center rounded-lg bg-accent px-8 py-4 text-xl font-semibold text-white hover:bg-accent-dark"
+                className="inline-flex flex-1 items-center justify-center rounded-xl bg-accent px-8 py-4 text-xl font-bold text-white shadow-sm hover:bg-accent-dark sm:flex-none"
               >
-                Book en tid
+                Book hjemmeklip
+              </Link>
+              <Link
+                href="/priser"
+                data-btn
+                className="inline-flex flex-1 items-center justify-center rounded-xl border-2 border-brand px-8 py-4 text-xl font-bold text-brand hover:bg-brand-light sm:flex-none"
+              >
+                Se priser
               </Link>
               {showPhone && (
                 <a
                   href={`tel:${tel}`}
                   data-btn
-                  className="inline-flex items-center rounded-lg border-2 border-brand px-8 py-4 text-xl font-semibold text-brand hover:bg-brand-light"
+                  className="inline-flex items-center justify-center rounded-xl px-6 py-4 text-lg font-semibold text-brand underline underline-offset-4 hover:bg-brand-light"
                 >
                   Ring {config.phone}
                 </a>
               )}
             </div>
 
-            <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-ink-soft">
-              <li className="flex items-center gap-2">
-                <CheckIcon /> {config.yearsOfExperience}+ års erfaring
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckIcon /> Gratis kørsel inden for {config.travel.freeRadiusKm} km
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckIcon /> Betaling med MobilePay, når du booker
-              </li>
-            </ul>
+            <div className="mt-7 rounded-card border border-line bg-canvas p-4">
+              <p className="text-sm font-bold uppercase tracking-[0.12em] text-brand">
+                Kører blandt andet i
+              </p>
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {heroAreas.map((area) => (
+                  <li key={area} className="rounded-full bg-surface px-4 py-2 font-semibold">
+                    {area}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <p className="mt-7 max-w-xl text-lg font-semibold text-ink-soft">
+              {config.yearsOfExperience}+ års erfaring med rolige klip hjemme hos kunden.
+            </p>
           </div>
 
-          <Image
-            src="/behandlinger/hjemmebesoeg.png"
-            alt="Frisør reder en ældre kvindes hår i hendes egen lyse stue."
-            width={1024}
-            height={768}
-            priority
-            sizes="(min-width: 768px) 30rem, 92vw"
-            className="aspect-4/3 w-full rounded-card border border-line object-cover"
-          />
+          <div className="relative">
+            <Image
+              src="/behandlinger/hjemmebesoeg.png"
+              alt="Frisør reder en ældre kvindes hår i hendes egen lyse stue."
+              width={1024}
+              height={768}
+              priority
+              sizes="(min-width: 768px) 30rem, 92vw"
+              className="aspect-4/3 w-full rounded-[1.5rem] border border-line object-cover shadow-sm"
+            />
+            <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-surface/95 p-4 shadow-sm backdrop-blur">
+              <p className="font-bold text-ink">Du skal kun finde en stol frem</p>
+              <p className="mt-1 text-base text-ink-soft">
+                Jeg har kappe, tæppe, sakse og maskine med.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="forbered" className="mx-auto max-w-5xl px-4 py-16">
+        <div className="grid gap-8 rounded-[1.5rem] border border-line bg-surface p-6 shadow-sm sm:p-8 md:grid-cols-[0.9fr_1.1fr] md:items-center">
+          <div>
+            <p className="font-semibold text-accent">Før besøget</p>
+            <h2 id="forbered" className="mt-2 text-3xl font-bold sm:text-4xl">
+              Roligt hjemmebesøg uden salonstress
+            </h2>
+          </div>
+          <ul className="grid gap-3 text-lg text-ink-soft sm:grid-cols-3 md:grid-cols-1">
+            <li className="flex gap-3">
+              <CheckIcon /> Find en almindelig stol med lidt plads omkring.
+            </li>
+            <li className="flex gap-3">
+              <CheckIcon /> Jeg tager udstyr, kappe og tæppe med.
+            </li>
+            <li className="flex gap-3">
+              <CheckIcon /> Du ser prisen inkl. kørsel, før du bekræfter.
+            </li>
+          </ul>
         </div>
       </section>
 
@@ -282,7 +348,7 @@ export default async function Home() {
       <Faq items={homeSeo.faq} />
 
       <section className="bg-brand text-white">
-        <div className="mx-auto max-w-3xl px-4 py-16 text-center">
+        <div className="mx-auto max-w-3xl px-4 py-16 pb-28 text-center md:pb-16">
           <h2 className="text-3xl font-bold sm:text-4xl">Skal jeg komme forbi?</h2>
           <p className="mt-4 text-xl text-white/90">
             Book på to minutter. Du ser prisen, før du bekræfter.
@@ -293,7 +359,7 @@ export default async function Home() {
               data-btn
               className="inline-flex items-center rounded-lg bg-accent px-8 py-4 text-xl font-semibold text-white hover:bg-accent-dark"
             >
-              Book en tid
+              Book hjemmeklip
             </Link>
             {showPhone && (
               <a
@@ -307,6 +373,25 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-surface/95 p-3 shadow-[0_-8px_30px_rgba(12,74,110,0.12)] backdrop-blur md:hidden">
+        <div className="mx-auto flex max-w-5xl gap-3">
+          <Link
+            href="/book"
+            data-btn
+            className="inline-flex flex-1 items-center justify-center rounded-xl bg-accent px-5 py-3 font-bold text-white hover:bg-accent-dark"
+          >
+            Book hjemmeklip
+          </Link>
+          <Link
+            href="/priser"
+            data-btn
+            className="inline-flex items-center justify-center rounded-xl border border-line px-4 py-3 font-bold text-brand hover:bg-brand-light"
+          >
+            Pris
+          </Link>
+        </div>
+      </div>
     </>
   );
 }
