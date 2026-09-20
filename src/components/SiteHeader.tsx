@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { isPlaceholderPhone } from "@/lib/placeholders";
 import { getConfig } from "@/lib/runtime-config";
 
 const navigation = [
@@ -13,6 +14,7 @@ const navigation = [
 export async function SiteHeader() {
   const config = await getConfig();
   const tel = config.phone.replace(/\s/g, "");
+  const showPhone = !isPlaceholderPhone(config.phone);
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-surface/95 backdrop-blur">
@@ -25,14 +27,16 @@ export async function SiteHeader() {
           </span>
         </Link>
 
-        <a
-          href={`tel:${tel}`}
-          data-btn
-          className="inline-flex items-center gap-2 rounded-lg px-4 py-3 font-semibold text-brand hover:bg-brand-light"
-        >
-          <PhoneIcon />
-          {config.phone}
-        </a>
+        {showPhone && (
+          <a
+            href={`tel:${tel}`}
+            data-btn
+            className="inline-flex items-center gap-2 rounded-lg px-4 py-3 font-semibold text-brand hover:bg-brand-light"
+          >
+            <PhoneIcon />
+            {config.phone}
+          </a>
+        )}
         <Link
           href="/book"
           data-btn

@@ -1,10 +1,16 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Faq } from "@/components/Faq";
 import { TravelFeeTable } from "@/components/PriceTable";
 import { ServiceGrid } from "@/components/ServiceGrid";
 import { Testimonials } from "@/components/Testimonials";
+import { homeSeo } from "@/content/seo";
+import { isPlaceholderPhone } from "@/lib/placeholders";
+import { pageMetadata } from "@/lib/seo-meta";
 import { getConfig } from "@/lib/runtime-config";
+
+export const metadata: Metadata = pageMetadata(homeSeo, "/");
 
 const steps = [
   {
@@ -33,6 +39,7 @@ const targetGroup = [
 export default async function Home() {
   const config = await getConfig();
   const tel = config.phone.replace(/\s/g, "");
+  const showPhone = !isPlaceholderPhone(config.phone);
 
   return (
     <>
@@ -42,19 +49,9 @@ export default async function Home() {
             <p className="font-semibold text-accent">
               Udekørende frisør i {config.home.city} og omegn
             </p>
-            <h1 className="mt-3 text-4xl font-bold sm:text-5xl">
-              Hjemmeklip – frisøren kommer hjem til dig
-            </h1>
-            <p className="mt-5 text-xl text-ink-soft">
-              En udekørende frisør (hjemmeklip) er en frisør, der kommer hjem til dig med
-              eget udstyr. Hos {config.name} booker du klip, pensionistklip eller børneklip
-              i {config.home.city} og omegn — uden salonbesøg, med tydelig pris inkl. kørsel
-              før du bekræfter, og betaling når du booker.
-            </p>
-            <p className="mt-4 text-lg text-ink-soft">
-              Som <strong>mobil frisør</strong> kører jeg til Amager, Tårnby, Dragør og
-              store dele af København. Book online, eller ring — jeg svarer selv.
-            </p>
+            <h1 className="mt-3 text-4xl font-bold sm:text-5xl">{homeSeo.h1}</h1>
+            <p className="mt-5 text-xl text-ink-soft">{homeSeo.paragraphs[0]}</p>
+            <p className="mt-4 text-lg text-ink-soft">{homeSeo.paragraphs[1]}</p>
 
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
@@ -64,13 +61,15 @@ export default async function Home() {
               >
                 Book en tid
               </Link>
-              <a
-                href={`tel:${tel}`}
-                data-btn
-                className="inline-flex items-center rounded-lg border-2 border-brand px-8 py-4 text-xl font-semibold text-brand hover:bg-brand-light"
-              >
-                Ring {config.phone}
-              </a>
+              {showPhone && (
+                <a
+                  href={`tel:${tel}`}
+                  data-btn
+                  className="inline-flex items-center rounded-lg border-2 border-brand px-8 py-4 text-xl font-semibold text-brand hover:bg-brand-light"
+                >
+                  Ring {config.phone}
+                </a>
+              )}
             </div>
 
             <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-ink-soft">
@@ -96,6 +95,17 @@ export default async function Home() {
             className="aspect-4/3 w-full rounded-card border border-line object-cover"
           />
         </div>
+      </section>
+
+      <section aria-labelledby="hvad" className="mx-auto max-w-3xl px-4 py-16">
+        <h2 id="hvad" className="text-3xl font-bold sm:text-4xl">
+          Hjemmeklip, pensionistklip og børneklip
+        </h2>
+        {homeSeo.paragraphs.slice(2).map((text) => (
+          <p key={text.slice(0, 40)} className="mt-4 text-lg text-ink-soft">
+            {text}
+          </p>
+        ))}
       </section>
 
       <section aria-labelledby="saadan" className="mx-auto max-w-5xl px-4 py-16">
@@ -125,8 +135,8 @@ export default async function Home() {
           </h2>
           <p className="mt-3 max-w-2xl text-lg text-ink-soft">
             Jeg holder det enkelt: klip, pensionistklip og børneklip. Du kan lægge skæg,
-            pandehår eller bryn til. Priserne er de samme som i en salon. Kørslen lægges
-            oven i efter afstanden, og du ser den samlede pris, inden du bekræfter.
+            pandehår eller bryn til. Kørslen lægges oven i efter afstanden, og du ser den
+            samlede pris, inden du bekræfter.
           </p>
           <div className="mt-10">
             <ServiceGrid services={config.services} phone={config.phone} />
@@ -269,14 +279,13 @@ export default async function Home() {
       </section>
 
       <Testimonials />
-      <Faq />
+      <Faq items={homeSeo.faq} />
 
       <section className="bg-brand text-white">
         <div className="mx-auto max-w-3xl px-4 py-16 text-center">
           <h2 className="text-3xl font-bold sm:text-4xl">Skal jeg komme forbi?</h2>
           <p className="mt-4 text-xl text-white/90">
-            Book på to minutter, eller ring hvis du har spørgsmål først. Jeg svarer selv
-            telefonen.
+            Book på to minutter. Du ser prisen, før du bekræfter.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
@@ -286,13 +295,15 @@ export default async function Home() {
             >
               Book en tid
             </Link>
-            <a
-              href={`tel:${tel}`}
-              data-btn
-              className="inline-flex items-center rounded-lg border-2 border-white px-8 py-4 text-xl font-semibold text-white hover:bg-brand-dark"
-            >
-              Ring {config.phone}
-            </a>
+            {showPhone && (
+              <a
+                href={`tel:${tel}`}
+                data-btn
+                className="inline-flex items-center rounded-lg border-2 border-white px-8 py-4 text-xl font-semibold text-white hover:bg-brand-dark"
+              >
+                Ring {config.phone}
+              </a>
+            )}
           </div>
         </div>
       </section>

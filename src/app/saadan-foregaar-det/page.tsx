@@ -1,26 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { FaqList } from "@/components/FaqList";
+import { SeoBody } from "@/components/SeoBody";
+import { saadanSeo } from "@/content/seo";
+import { pageMetadata } from "@/lib/seo-meta";
 import { getConfig } from "@/lib/runtime-config";
 import { visitPrepChecklist } from "@/lib/visit-prep";
 
-export const metadata: Metadata = {
-  title: "Sådan foregår et hjemmeklip – trin for trin",
-  description:
-    "Sådan booker og får du hjemmeklip: vælg behandling, skriv adresse, se prisen inkl. kørsel, og få den udekørende frisør hjem til dig i Kastrup og omegn.",
-  keywords: [
-    "sådan booker hjemmeklip",
-    "udekørende frisør hvordan",
-    "mobil frisør hjemme",
-    "hvad skal jeg have klar frisør hjemme",
-  ],
-  alternates: { canonical: "/saadan-foregaar-det" },
-  openGraph: {
-    title: "Sådan foregår et hjemmeklip",
-    description: "Fra booking til betaling — hele forløbet når frisøren kommer hjem til dig.",
-    images: [{ url: "/behandlinger/hjemmebesoeg.png" }],
-  },
-};
+export const metadata: Metadata = pageMetadata(saadanSeo, "/saadan-foregaar-det");
 
 const steps = [
   {
@@ -29,7 +17,7 @@ const steps = [
   },
   {
     name: "Vælg dag og tid",
-    text: "Kun ledige tider kan vælges. Du skal booke mindst et døgn i forvejen online — ring, hvis det haster.",
+    text: "Kun ledige tider kan vælges. Du skal booke mindst et døgn i forvejen online.",
   },
   {
     name: "Bekræft og betal",
@@ -74,12 +62,8 @@ export default async function SaadanPage() {
         ]}
       />
 
-      <h1 className="mt-4 text-4xl font-bold sm:text-5xl">Sådan foregår et hjemmeklip</h1>
-      <p className="mt-5 text-xl text-ink-soft">
-        Mange spørger, om det bliver rodet, eller om de skal gøre noget særligt
-        klar. Det skal du ikke. Her er hele forløbet, fra du booker, til jeg
-        kører igen.
-      </p>
+      <h1 className="mt-4 text-4xl font-bold sm:text-5xl">{saadanSeo.h1}</h1>
+      <SeoBody paragraphs={saadanSeo.paragraphs} />
 
       <ol className="mt-10 space-y-6">
         {steps.map((step, index) => (
@@ -111,26 +95,14 @@ export default async function SaadanPage() {
       </ul>
       <p className="mt-4 text-lg text-ink-soft">
         Sidder du i kørestol eller har svært ved at rejse dig, klipper jeg dig,
-        hvor du sidder. Det er helt almindeligt for mig, så du skal ikke være
-        bekymret for at spørge. Børn klippes i det tempo, der passer barnet.
+        hvor du sidder. Børn klippes i det tempo, der passer barnet.
       </p>
 
       <h2 className="mt-12 text-2xl font-bold sm:text-3xl">Hvor lang tid tager det?</h2>
       <p className="mt-4 text-lg">
         En klipning tager typisk 30–50 minutter, inklusive at jeg stiller op og
         rydder op igen. Pensionistklip har ekstra tid. Den afsatte tid står ved
-        hver behandling, når du booker, så du ved, hvor lang tid jeg er hos dig.
-      </p>
-
-      <h2 className="mt-12 text-2xl font-bold sm:text-3xl">Rengøring bagefter</h2>
-      <p className="mt-4 text-lg">
-        Jeg fejer op og tager hårene med mig. Der skal ikke støvsuges efter mig.
-      </p>
-
-      <h2 className="mt-12 text-2xl font-bold sm:text-3xl">Betaling</h2>
-      <p className="mt-4 text-lg">
-        Du betaler med MobilePay, når du booker — til <strong>{config.mobilePay}</strong>.
-        Pårørende kan få faktura. Prisen er den, du fik oplyst i bookingen.
+        hver behandling, når du booker.
       </p>
 
       <h2 className="mt-12 text-2xl font-bold sm:text-3xl">Hvis du må aflyse</h2>
@@ -138,6 +110,8 @@ export default async function SaadanPage() {
         Mindst {config.cancelFreeHours} timer før: du betaler intet. Senere: gebyr{" "}
         {config.lateCancelFeeKr} kr. Du får et afbuds-link i din bekræftelse.
       </p>
+
+      <FaqList items={saadanSeo.faq} />
 
       <p className="mt-12">
         <Link

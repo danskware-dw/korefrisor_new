@@ -3,70 +3,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { FaqList } from "@/components/FaqList";
+import { SeoBody } from "@/components/SeoBody";
+import { serviceSeo } from "@/content/seo";
 import { formatDkk, formatDuration } from "@/lib/pricing";
+import { pageMetadata } from "@/lib/seo-meta";
 import { getConfig } from "@/lib/runtime-config";
 import type { Service } from "@/config/types";
 
 type Params = { slug: string };
 
-const extra: Record<
+const addonCopy: Record<
   string,
   { headline: string; lead: string; points: string[]; keywords: string[] }
 > = {
-  klip: {
-    headline: "Hjemmeklip i Kastrup – udekørende / mobil frisør",
-    lead: "Almindeligt klip hjemme hos dig. Saks og maskine, tilpasset dit hår, i din egen stue — uden salon og uden ventetid.",
-    points: [
-      "Du sidder i din egen stol — ingen salon, ingen ventetid.",
-      "Jeg medbringer sakse, maskine, kappe og tæppe og fejer op bagefter.",
-      "Prisen er fast. Kørselstillægget ser du, inden du bekræfter.",
-      "Passer til både mænd og kvinder, kort og længere hår.",
-      "Book online eller ring — jeg kører fra Kastrup til Amager, Tårnby, Dragør og København.",
-    ],
-    keywords: [
-      "hjemmeklip",
-      "klip hjemme",
-      "udekørende frisør Kastrup",
-      "mobil frisør klip",
-      "hjemmefrisør",
-    ],
-  },
-  pensionistklip: {
-    headline: "Pensionistklip hjemme – frisør til ældre",
-    lead: "Rolig klipning med ekstra tid. Jeg klipper gerne siddende, også ved gangbesvær, rollator eller i kørestol. Pårørende booker ofte.",
-    points: [
-      "Ekstra tid, så vi ikke skal skynde os.",
-      "Jeg klipper, hvor du sidder — også i kørestol eller i sengen.",
-      "Pårørende kan booke på vegne af mor, far eller bedsteforældre.",
-      "Jeg kommer også på plejehjem og i ældreboliger.",
-      "Samme trygge model som senior home haircuts i UK og USA — i din egen stue.",
-    ],
-    keywords: [
-      "pensionistklip hjemme",
-      "frisør til ældre",
-      "frisør kørestol",
-      "senior haircut at home",
-      "hjemmefrisør pensionist",
-      "frisør til pårørende",
-    ],
-  },
-  boerneklip: {
-    headline: "Børneklip hjemme – i barnets tempo",
-    lead: "Klip til børn under 12 år, i barnets eget hjem. Ingen fremmede stole, ingen salonstøj, ingen ventetid.",
-    points: [
-      "Barnet er i trygge omgivelser og kan holde pause, hvis det har brug for det.",
-      "Kortere tid end et voksenklip, så det ikke bliver for langt.",
-      "Forældre kan booke flere børn samme dag — I betaler kun kørsel én gang.",
-      "Jeg tager det i barnets tempo. Ingen pres.",
-    ],
-    keywords: [
-      "børneklip hjemme",
-      "børneklip Kastrup",
-      "klippe børn hjemme",
-      "kids haircut at home",
-      "mobil frisør børn",
-    ],
-  },
   skaegklip: {
     headline: "Skægklip hjemme – tillæg til klippet",
     lead: "Trimning af skæg, når frisøren alligevel er i huset. Bookes sammen med et klip.",
@@ -97,20 +47,14 @@ const extra: Record<
   },
   plejehjem: {
     headline: "Frisør på plejehjem og bosted",
-    lead: "N beboere samme dag, én kørsel, én faktura og fast ugedag. Personalet eller pårørende booker.",
+    lead: "Flere beboere samme dag, én kørsel, én faktura og fast ugedag. Personalet eller pårørende booker.",
     points: [
-      "Pensionistklip med ekstra tid — ikke en 15-siders prisliste.",
+      "Pensionistklip med ekstra tid.",
       "Kørsel tælles kun én gang, uanset hvor mange der klippes.",
-      "Rabat fra person 2, så prisen ikke bare er 350 kr. ved siden af salonens 200 kr.",
       "Én faktura til stedet eller pårørende.",
-      "Samme ugedag fremover, med e-mail dagen før.",
+      "Samme ugedag fremover.",
     ],
-    keywords: [
-      "frisør plejehjem",
-      "hjemmeklip bosted",
-      "frisør ældrecenter",
-      "care home hairdresser",
-    ],
+    keywords: ["frisør plejehjem", "hjemmeklip bosted", "frisør ældrecenter"],
   },
 };
 
@@ -123,8 +67,9 @@ export async function generateMetadata({
   const config = await getConfig();
   const service = config.services.find((item) => item.id === slug);
   if (!service) return {};
-  const copy = extra[slug];
-
+  const seo = serviceSeo[slug];
+  if (seo) return pageMetadata(seo, `/behandlinger/${service.id}`, service.image);
+  const copy = addonCopy[slug];
   return {
     title: copy?.headline ?? `${service.name} hjemme hos dig`,
     description: copy?.lead ?? service.description,
@@ -143,7 +88,8 @@ export default async function BehandlingPage({ params }: { params: Promise<Param
   const config = await getConfig();
   const service = config.services.find((item) => item.id === slug);
   if (!service) notFound();
-  const copy = extra[slug];
+  const seo = serviceSeo[slug];
+  const copy = addonCopy[slug];
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-14">
@@ -156,9 +102,13 @@ export default async function BehandlingPage({ params }: { params: Promise<Param
       />
 
       <h1 className="mt-4 text-4xl font-bold sm:text-5xl">
-        {copy?.headline ?? service.name}
+        {seo?.h1 ?? copy?.headline ?? service.name}
       </h1>
-      <p className="mt-5 text-xl text-ink-soft">{copy?.lead ?? service.description}</p>
+      {seo ? (
+        <SeoBody paragraphs={seo.paragraphs} />
+      ) : (
+        <p className="mt-5 text-xl text-ink-soft">{copy?.lead ?? service.description}</p>
+      )}
 
       <Image
         src={service.image}
@@ -182,21 +132,21 @@ export default async function BehandlingPage({ params }: { params: Promise<Param
         </div>
       </dl>
 
-      {copy && (
+      {(seo?.points ?? copy?.points)?.length ? (
         <ul className="mt-8 space-y-3 text-lg">
-          {copy.points.map((point) => (
+          {(seo?.points ?? copy?.points ?? []).map((point) => (
             <li key={point}>• {point}</li>
           ))}
         </ul>
-      )}
-
-      {!copy && <p className="mt-8 text-lg">{service.description}</p>}
+      ) : null}
 
       <p className="mt-8 text-lg text-ink-soft">
         Oven i prisen kommer kørselstillæg efter afstanden fra {config.home.city}. De
         første {config.travel.freeRadiusKm} km er gratis. Du ser det samlede beløb, før
         du bekræfter.
       </p>
+
+      {seo && <FaqList items={seo.faq} />}
 
       <ServiceJsonLd service={service} siteUrl={config.siteUrl} />
 

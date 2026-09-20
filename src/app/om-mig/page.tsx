@@ -1,29 +1,33 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { FaqList } from "@/components/FaqList";
+import { SeoBody } from "@/components/SeoBody";
+import { omMigSeo } from "@/content/seo";
+import { isPlaceholderName } from "@/lib/placeholders";
+import { pageMetadata } from "@/lib/seo-meta";
 import { getConfig } from "@/lib/runtime-config";
 
-export const metadata: Metadata = {
-  title: "Om mig – udekørende frisør i Kastrup",
-  description:
-    "Frisør med over 4 års erfaring, bosat i Kastrup. Jeg kører hjem til dig med klip, pensionistklip og børneklip i stedet for at have salon.",
-  alternates: { canonical: "/om-mig" },
-};
+export const metadata: Metadata = pageMetadata(
+  omMigSeo,
+  "/om-mig",
+  "/behandlinger/pensionistklip.png",
+);
 
 export default async function OmMigPage() {
   const config = await getConfig();
   const me = config.employees.find((item) => item.active) ?? config.employees[0];
+  const showName = !isPlaceholderName(config.ownerName);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-14">
       <div className="grid gap-10 md:grid-cols-2 md:items-center">
         <div>
-          <h1 className="text-4xl font-bold sm:text-5xl">Om mig</h1>
-          <p className="mt-5 text-xl text-ink-soft">
-            Jeg hedder {config.ownerName} og har været frisør i over{" "}
-            {config.yearsOfExperience} år. Jeg bor i {config.home.city} og har valgt at
-            køre ud til mine kunder i stedet for at have en salon.
-          </p>
+          <h1 className="text-4xl font-bold sm:text-5xl">{omMigSeo.h1}</h1>
+          {showName && (
+            <p className="mt-5 text-xl text-ink-soft">Jeg hedder {config.ownerName}.</p>
+          )}
+          <p className="mt-5 text-xl text-ink-soft">{omMigSeo.paragraphs[0]}</p>
         </div>
 
         <Image
@@ -36,19 +40,8 @@ export default async function OmMigPage() {
         />
       </div>
 
-      <div className="mt-14 max-w-3xl">
-        <p className="text-lg">
-          Grunden er enkel. Jeg mødte gang på gang kunder, for hvem turen til salonen var
-          det svære — bussen, trapperne, ventetiden. Nogle havde ikke været klippet i
-          månedsvis, ikke fordi de ikke ville, men fordi de ikke kunne komme derhen. Så nu
-          kommer jeg til dem i stedet.
-        </p>
-
-        <p className="mt-5 text-lg">
-          Det gør også arbejdet roligere. Der er ingen musik, der buldrer, ingen telefon
-          der ringer, og du skal ikke sidde og vente. Vi tager den tid, det tager, og du
-          får min fulde opmærksomhed i din egen stue.
-        </p>
+      <div className="mt-8 max-w-3xl">
+        <SeoBody paragraphs={omMigSeo.paragraphs.slice(1)} />
 
         <h2 className="mt-14 text-2xl font-bold sm:text-3xl">Hygiejne og udstyr</h2>
         <p className="mt-4 text-lg">
@@ -88,7 +81,9 @@ export default async function OmMigPage() {
                       height={320}
                       className="aspect-square w-full rounded-lg object-cover"
                     />
-                    <h3 className="mt-4 text-xl font-bold">{employee.name}</h3>
+                    <h3 className="mt-4 text-xl font-bold">
+                      {isPlaceholderName(employee.name) ? employee.role : employee.name}
+                    </h3>
                     <p className="text-ink-soft">{employee.role}</p>
                     {employee.bio && <p className="mt-2 text-lg">{employee.bio}</p>}
                     {employee.qualifications && employee.qualifications.length > 0 && (
@@ -111,13 +106,15 @@ export default async function OmMigPage() {
           skal huske på det.
         </p>
 
+        <FaqList items={omMigSeo.faq} />
+
         <p className="mt-14">
           <Link
             href="/book"
             data-btn
             className="inline-flex items-center rounded-lg bg-accent px-8 py-4 text-xl font-semibold text-white hover:bg-accent-dark"
           >
-            Book en tid hos mig
+            Book en tid
           </Link>
         </p>
       </div>

@@ -1,59 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { FaqList } from "@/components/FaqList";
+import { SeoBody } from "@/components/SeoBody";
+import { forParorendeSeo } from "@/content/seo";
+import { isPlaceholderPhone } from "@/lib/placeholders";
+import { pageMetadata } from "@/lib/seo-meta";
 import { getConfig } from "@/lib/runtime-config";
 
-export const metadata: Metadata = {
-  title: "Book frisør til mor, far eller bedsteforældre",
-  description:
-    "Pårørende booker ofte hjemmeklip for ældre. Udekørende frisør i Kastrup og Amager — pensionistklip siddende, også i kørestol. Nem booking på vegne af andre.",
-  keywords: [
-    "frisør til ældre pårørende",
-    "book frisør til mor",
-    "pensionistklip hjemme",
-    "frisør plejehjem",
-    "hjemmeklip for pårørende",
-    "senior haircut for family",
-  ],
-  alternates: { canonical: "/for-parorende" },
-  openGraph: {
-    title: "Book hjemmeklip til en pårørende",
-    description:
-      "Udekørende frisør til ældre i Kastrup og omegn. Du booker — jeg kører hjem til dem.",
-    images: [{ url: "/behandlinger/pensionistklip.png" }],
-  },
-};
+export const metadata: Metadata = pageMetadata(
+  forParorendeSeo,
+  "/for-parorende",
+  "/behandlinger/pensionistklip.png",
+);
 
 export default async function ForParorendePage() {
   const config = await getConfig();
   const tel = config.phone.replace(/\s/g, "");
-
-  const faq = [
-    {
-      question: "Kan jeg booke hjemmeklip til min mor eller far?",
-      answer:
-        "Ja. Sæt kryds i «Jeg booker for en pårørende». Skriv deres adresse og dit telefonnummer. Du kan få faktura, fast tid og e-mail dagen før.",
-    },
-    {
-      question: "Klipper du dem, der ikke kan komme ud?",
-      answer:
-        "Ja. Pensionistklip har ekstra tid. Jeg klipper gerne siddende — også ved gangbesvær, rollator eller i kørestol.",
-    },
-    {
-      question: "Kommer du på plejehjem?",
-      answer: `Ja. Book et plejehjemsbesøg: antal beboere, én kørsel, én faktura og fast ugedag. Eller ring på ${config.phone}.`,
-    },
-  ];
-
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faq.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: { "@type": "Answer", text: item.answer },
-    })),
-  };
+  const showPhone = !isPlaceholderPhone(config.phone);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-14">
@@ -64,17 +28,11 @@ export default async function ForParorendePage() {
         ]}
       />
 
-      <h1 className="mt-4 text-4xl font-bold sm:text-5xl">
-        Book frisør hjem til en pårørende
-      </h1>
-      <p className="mt-5 text-xl text-ink-soft">
-        Mange af mine aftaler bookes af børn og børnebørn. Du arrangerer tiden —
-        jeg kører hjem til dem i {config.home.city}, på Amager, i Tårnby, Dragør
-        eller det meste af København.
-      </p>
+      <h1 className="mt-4 text-4xl font-bold sm:text-5xl">{forParorendeSeo.h1}</h1>
+      <SeoBody paragraphs={forParorendeSeo.paragraphs} />
 
       <ul className="mt-8 space-y-3 text-lg">
-        <li>• Deres adresse, dit telefonnummer — jeg ringer til dig</li>
+        <li>• Deres adresse, dit telefonnummer</li>
         <li>• Faktura til dig, hvis du betaler</li>
         <li>• Fast tid hver 4., 6. eller 8. uge</li>
         <li>• E-mail dagen før, så ingen glemmer stolen</li>
@@ -90,13 +48,15 @@ export default async function ForParorendePage() {
         >
           Book til mor eller far
         </Link>
-        <a
-          href={`tel:${tel}`}
-          data-btn
-          className="inline-flex items-center rounded-lg border-2 border-brand px-8 py-4 text-xl font-semibold text-brand hover:bg-brand-light"
-        >
-          Ring {config.phone}
-        </a>
+        {showPhone && (
+          <a
+            href={`tel:${tel}`}
+            data-btn
+            className="inline-flex items-center rounded-lg border-2 border-brand px-8 py-4 text-xl font-semibold text-brand hover:bg-brand-light"
+          >
+            Ring {config.phone}
+          </a>
+        )}
       </div>
 
       <h2 className="mt-14 text-2xl font-bold">Sådan gør du</h2>
@@ -108,20 +68,7 @@ export default async function ForParorendePage() {
         <li>Vælg fast tid hver 4. eller 6. uge, hvis det skal gentages.</li>
       </ol>
 
-      <h2 className="mt-14 text-2xl font-bold">Spørgsmål fra pårørende</h2>
-      <div className="mt-6 space-y-3">
-        {faq.map((item) => (
-          <details
-            key={item.question}
-            className="group rounded-card border border-line bg-surface open:border-brand"
-          >
-            <summary className="flex min-h-14 cursor-pointer items-center gap-4 px-6 py-4 text-lg font-semibold hover:text-brand">
-              <span className="flex-1">{item.question}</span>
-            </summary>
-            <p className="border-t border-line px-6 py-4 text-ink-soft">{item.answer}</p>
-          </details>
-        ))}
-      </div>
+      <FaqList items={forParorendeSeo.faq} heading="Spørgsmål fra pårørende" />
 
       <p className="mt-10 text-lg">
         Læs også{" "}
@@ -138,11 +85,6 @@ export default async function ForParorendePage() {
         </Link>
         .
       </p>
-
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
     </div>
   );
 }

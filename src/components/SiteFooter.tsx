@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { isPlaceholderEmail, isPlaceholderPhone } from "@/lib/placeholders";
 import { getConfig } from "@/lib/runtime-config";
 
 const weekdayNames: Record<number, string> = {
@@ -14,6 +15,8 @@ const weekdayNames: Record<number, string> = {
 export async function SiteFooter() {
   const config = await getConfig();
   const tel = config.phone.replace(/\s/g, "");
+  const showPhone = !isPlaceholderPhone(config.phone);
+  const showEmail = !isPlaceholderEmail(config.email);
 
   return (
     <footer className="mt-auto border-t border-line bg-surface">
@@ -21,13 +24,24 @@ export async function SiteFooter() {
         <div>
           <h2 className="text-xl font-bold">Kontakt</h2>
           <p className="mt-3">
-            <a href={`tel:${tel}`} className="text-lg font-semibold text-brand underline">
-              {config.phone}
-            </a>
-            <br />
-            <a href={`mailto:${config.email}`} className="underline">
-              {config.email}
-            </a>
+            {showPhone && (
+              <>
+                <a href={`tel:${tel}`} className="text-lg font-semibold text-brand underline">
+                  {config.phone}
+                </a>
+                <br />
+              </>
+            )}
+            {showEmail && (
+              <a href={`mailto:${config.email}`} className="underline">
+                {config.email}
+              </a>
+            )}
+            {!showPhone && !showEmail && (
+              <Link href="/book" className="text-lg font-semibold text-brand underline">
+                Book en tid
+              </Link>
+            )}
           </p>
           <p className="mt-3 text-ink-soft">
             Jeg kører ud fra {config.home.postalCode} {config.home.city}.

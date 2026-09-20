@@ -1,3 +1,4 @@
+import { isPlaceholderEmail, isPlaceholderPhone } from "@/lib/placeholders";
 import { getConfig } from "@/lib/runtime-config";
 
 const dayNames: Record<number, string> = {
@@ -32,8 +33,8 @@ export async function LocalBusinessSchema() {
     description:
       "Udekørende frisør og hjemmeklip i Kastrup. Klip, pensionistklip og børneklip i kundens eget hjem på Amager, i Tårnby, Dragør og Storkøbenhavn. Specielt til ældre, børn og dem med nedsat mobilitet.",
     url: config.siteUrl,
-    telephone: config.phone,
-    email: config.email,
+    ...(isPlaceholderPhone(config.phone) ? {} : { telephone: config.phone }),
+    ...(isPlaceholderEmail(config.email) ? {} : { email: config.email }),
     image: `${config.siteUrl}/behandlinger/hjemmebesoeg.png`,
     logo: `${config.siteUrl}/behandlinger/hjemmebesoeg.png`,
     priceRange: "225-350 DKK",

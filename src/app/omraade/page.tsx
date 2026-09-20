@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { FaqList } from "@/components/FaqList";
 import { TravelFeeTable } from "@/components/PriceTable";
+import { SeoBody } from "@/components/SeoBody";
 import { ServiceAreaMap } from "@/components/map/TravelMap";
+import { omraadeSeo } from "@/content/seo";
 import { formatDkk } from "@/lib/pricing";
+import { pageMetadata } from "@/lib/seo-meta";
 import { getConfig } from "@/lib/runtime-config";
 
-export const metadata: Metadata = {
-  title: "Hvor jeg kører hen – hjemmeklip i Kastrup og København",
-  description:
-    "Udekørende frisør fra Kastrup. Hjemmeklip i Tårnby, Dragør, Amager og det meste af København. Se kortet over mit område og kørselstillægget.",
-  alternates: { canonical: "/omraade" },
-};
+export const metadata: Metadata = pageMetadata(omraadeSeo, "/omraade");
 
 export default async function OmraadePage() {
   const config = await getConfig();
@@ -26,11 +25,8 @@ export default async function OmraadePage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-14">
-      <h1 className="text-4xl font-bold sm:text-5xl">Hvor jeg kører hen</h1>
-      <p className="mt-5 text-xl text-ink-soft">
-        Jeg kører ud fra {home.postalCode} {home.city} og op til {travel.maxServiceRadiusKm}{" "}
-        km derfra. De første {travel.freeRadiusKm} km er uden kørselstillæg.
-      </p>
+      <h1 className="text-4xl font-bold sm:text-5xl">{omraadeSeo.h1}</h1>
+      <SeoBody paragraphs={omraadeSeo.paragraphs} />
 
       <div className="mt-8">
         <ServiceAreaMap home={home} rings={rings} />
@@ -71,15 +67,21 @@ export default async function OmraadePage() {
 
       <h2 className="mt-14 text-2xl font-bold">Bor du længere væk?</h2>
       <p className="mt-4 text-lg">
-        Ring alligevel på{" "}
-        <a
-          href={`tel:${config.phone.replace(/\s/g, "")}`}
-          className="font-semibold text-brand underline"
+        Radius er {travel.maxServiceRadiusKm} km fra {home.city}. Start bookingen med
+        adressen — den viser, om jeg kommer. Er I flere på samme adresse, betaler I kun
+        kørsel én gang.
+      </p>
+
+      <FaqList items={omraadeSeo.faq} />
+
+      <p className="mt-12">
+        <Link
+          href="/book"
+          data-btn
+          className="inline-flex items-center rounded-lg bg-accent px-8 py-4 text-xl font-semibold text-white hover:bg-accent-dark"
         >
-          {config.phone}
-        </a>
-        . Er jeg i forvejen i nærheden på en anden opgave, kan jeg ofte lægge et besøg ind.
-        Det samme gælder, hvis I er flere på samme adresse — så betaler I kun kørsel én gang.
+          Book en tid
+        </Link>
       </p>
     </div>
   );

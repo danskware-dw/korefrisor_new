@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Service } from "@/config/types";
+import { isPlaceholderPhone } from "@/lib/placeholders";
 import { formatDkk, formatDuration } from "@/lib/pricing";
 
 /** Behandlinger vist som kort med foto — bruges på forsiden og under Priser. */
@@ -92,12 +93,14 @@ function ServiceCard({ service, phone }: { service: Service; phone: string }) {
             >
               Book plejehjemsbesøg
             </Link>
-            <a
-              href={`tel:${phone.replace(/\s/g, "")}`}
-              className="text-center font-semibold text-brand underline"
-            >
-              Eller ring {phone}
-            </a>
+            {!isPlaceholderPhone(phone) && (
+              <a
+                href={`tel:${phone.replace(/\s/g, "")}`}
+                className="text-center font-semibold text-brand underline"
+              >
+                Eller ring {phone}
+              </a>
+            )}
           </>
         ) : (
           <Link

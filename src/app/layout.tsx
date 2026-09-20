@@ -18,11 +18,11 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(business.siteUrl),
   title: {
-    default: `${business.name} – hjemmeklip og udekørende frisør i Kastrup`,
+    default: `${business.name} – udekørende frisør og hjemmeklip i Kastrup`,
     template: `%s | ${business.name}`,
   },
   description:
-    "Mobil frisør / udekørende frisør i Kastrup. Hjemmeklip, pensionistklip og børneklip i dit eget hjem på Amager, i Tårnby, Dragør og København. Nem booking. Betal med MobilePay, når du booker.",
+    "Hjemmeklip i Kastrup og omegn. Mobil frisør kører hjem til dig: klip 350 kr, pensionistklip 325 kr, børneklip 225 kr. Se prisen og book.",
   keywords: [
     "hjemmeklip Kastrup",
     "udekørende frisør",
@@ -45,9 +45,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "da_DK",
     siteName: business.name,
-    title: `${business.name} – hjemmeklip i Kastrup`,
+    title: `${business.name} – udekørende frisør og hjemmeklip i Kastrup`,
     description:
-      "Udekørende frisør: klip, pensionistklip og børneklip hjemme hos dig i Kastrup og omegn.",
+      "Hjemmeklip i Kastrup og omegn. Mobil frisør kører hjem til dig: klip, pensionistklip og børneklip. Se prisen og book.",
     images: [
       {
         url: "/behandlinger/hjemmebesoeg.png",
@@ -59,8 +59,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${business.name} – hjemmeklip i Kastrup`,
-    description: "Mobil frisør til klip, pensionistklip og børneklip hjemme hos dig.",
+    title: `${business.name} – udekørende frisør og hjemmeklip i Kastrup`,
+    description: "Hjemmeklip i Kastrup og omegn. Klip, pensionistklip og børneklip hjemme hos dig.",
     images: ["/behandlinger/hjemmebesoeg.png"],
   },
   alternates: { canonical: "/" },
