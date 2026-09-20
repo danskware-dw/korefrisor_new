@@ -76,26 +76,46 @@ export function BookingCard({
           {booking.smsDayBefore ? "E-mail dagen før" : ""}
         </p>
       )}
-      <p className="mt-1 text-ink-soft">
-        {booking.payment?.mode === "ved_besoeg"
-          ? "Betales ved besøg"
-          : booking.payment?.mode === "faktura"
-            ? "Faktura"
-            : "MobilePay"}
-        {": "}
-        {booking.payment?.status ?? "ukendt"}
-        {booking.payment?.providerState ? ` · ${booking.payment.providerState}` : ""}
-        {typeof booking.payment?.capturedOre === "number"
-          ? ` · captured ${formatDkk(booking.payment.capturedOre / 100)}`
-          : ""}
-        {booking.payment?.reference ? ` · ${booking.payment.reference}` : ""}
-        {booking.payment?.paidAt
-          ? ` · betalt ${formatDay(booking.payment.paidAt)}`
-          : ""}
-        {booking.cancel
-          ? ` · aflyst (gebyr ${formatDkk(booking.cancel.feeKr)}, refund ${formatDkk(booking.cancel.refundKr)})`
-          : ""}
-      </p>
+      <div className="mt-2 rounded-lg bg-muted px-4 py-2">
+        <p className="font-semibold">
+          💳 Betaling:{" "}
+          <span
+            className={
+              booking.payment?.status === "betalt"
+                ? "text-green-700"
+                : booking.payment?.status === "afventer"
+                  ? "text-orange-700"
+                  : "text-ink"
+            }
+          >
+            {booking.payment?.status === "betalt"
+              ? "✓ Betalt"
+              : booking.payment?.status === "afventer"
+                ? "⏳ Afventer"
+                : booking.payment?.status === "refunderet"
+                  ? "↩ Refunderet"
+                  : booking.payment?.status ?? "Ukendt"}
+          </span>
+        </p>
+        <p className="mt-1 text-sm text-ink-soft">
+          {booking.payment?.mode === "ved_besoeg"
+            ? "Betales ved besøg"
+            : booking.payment?.mode === "faktura"
+              ? "Faktura sendt"
+              : booking.payment?.mode === "online"
+                ? "MobilePay Online"
+                : "Manuel MobilePay"}
+          {booking.payment?.reference ? ` · Ref: ${booking.payment.reference}` : ""}
+          {booking.payment?.paidAt ? ` · ${formatDay(booking.payment.paidAt)}` : ""}
+          {booking.payment?.providerState ? ` · ${booking.payment.providerState}` : ""}
+          {typeof booking.payment?.capturedOre === "number"
+            ? ` · captured ${formatDkk(booking.payment.capturedOre / 100)}`
+            : ""}
+          {booking.cancel
+            ? ` · Aflyst (gebyr ${formatDkk(booking.cancel.feeKr)}, refund ${formatDkk(booking.cancel.refundKr)})`
+            : ""}
+        </p>
+      </div>
       {booking.customer.note && (
         <p className="mt-2 rounded-lg bg-muted px-4 py-2">Bemærkning: {booking.customer.note}</p>
       )}
