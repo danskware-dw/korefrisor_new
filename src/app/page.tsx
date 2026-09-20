@@ -44,6 +44,30 @@ const heroTrust = [
 
 const heroAreas = ["Kastrup", "Tårnby", "Dragør", "Amager"];
 
+const customerPaths = [
+  {
+    eyebrow: "Til pårørende",
+    title: "Book til mor eller far",
+    text: "Brug deres adresse og dit telefonnummer. Du kan få faktura og påmindelse dagen før.",
+    href: "/for-parorende",
+    cta: "Se pårørende-flow",
+  },
+  {
+    eyebrow: "Flere samme sted",
+    title: "Saml familie eller naboer",
+    text: "I betaler kun kørsel én gang, og hver ekstra person får 50 kr rabat.",
+    href: "/book",
+    cta: "Book flere personer",
+  },
+  {
+    eyebrow: "Plejehjem og bosted",
+    title: "Fast klippedag med én faktura",
+    text: "God løsning til flere beboere samme dag, fast ugedag og roligt tempo.",
+    href: "/book/plejehjem",
+    cta: "Aftal fælles besøg",
+  },
+];
+
 export default async function Home() {
   const config = await getConfig();
   const tel = config.phone.replace(/\s/g, "");
@@ -160,6 +184,40 @@ export default async function Home() {
               <CheckIcon /> Du ser prisen inkl. kørsel, før du bekræfter.
             </li>
           </ul>
+        </div>
+      </section>
+
+      <section aria-labelledby="vaelg-vej" className="mx-auto max-w-5xl px-4 py-16 pt-0">
+        <div className="rounded-[1.5rem] border border-line bg-canvas p-6 shadow-sm sm:p-8">
+          <div className="max-w-2xl">
+            <p className="font-semibold text-accent">Vælg den nemmeste vej</p>
+            <h2 id="vaelg-vej" className="mt-2 text-3xl font-bold sm:text-4xl">
+              Hurtigere booking for de mest almindelige situationer
+            </h2>
+            <p className="mt-3 text-lg text-ink-soft">
+              De fleste bookinger handler enten om en pårørende, flere samme adresse eller et
+              fast besøg på plejehjem. Vælg den vej, der passer bedst, så slipper du for
+              unødige spørgsmål.
+            </p>
+          </div>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {customerPaths.map((path) => (
+              <Link
+                key={path.title}
+                href={path.href}
+                className="group flex min-h-full flex-col rounded-card border border-line bg-surface p-5 transition hover:-translate-y-0.5 hover:border-brand hover:shadow-sm"
+              >
+                <span className="text-sm font-bold uppercase tracking-[0.12em] text-brand">
+                  {path.eyebrow}
+                </span>
+                <h3 className="mt-3 text-xl font-bold">{path.title}</h3>
+                <p className="mt-2 flex-1 text-ink-soft">{path.text}</p>
+                <span className="mt-5 font-bold text-accent group-hover:text-accent-dark">
+                  {path.cta} →
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -360,6 +418,13 @@ export default async function Home() {
               className="inline-flex items-center rounded-lg bg-accent px-8 py-4 text-xl font-semibold text-white hover:bg-accent-dark"
             >
               Book hjemmeklip
+            </Link>
+            <Link
+              href="/for-parorende"
+              data-btn
+              className="inline-flex items-center rounded-lg border-2 border-white px-8 py-4 text-xl font-semibold text-white hover:bg-brand-dark"
+            >
+              Book til mor eller far
             </Link>
             {showPhone && (
               <a
