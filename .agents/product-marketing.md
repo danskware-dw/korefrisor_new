@@ -1,7 +1,7 @@
-# Product marketing context — Kørefrisøren
+# Product marketing context — FrisørHjem
 
 ## Business
-- **Name:** Kørefrisøren
+- **Name:** FrisørHjem
 - **Type:** Mobile / home-visit hairdresser (udekørende frisør), not a walk-in salon
 - **Base:** Kastrup (2770), Denmark — service radius ~30 km
 - **Audience:** Elderly / mobility-limited adults, children under 12, relatives booking for family, care homes

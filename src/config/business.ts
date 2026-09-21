@@ -6,7 +6,7 @@
 import type { AppConfig, Service } from "./types";
 
 export const business: AppConfig = {
-  name: "Kørefrisøren",
+  name: "FrisørHjem",
   tagline: "Frisør der kører hjem til dig",
   ownerName: "Raed",
   yearsOfExperience: 4,
@@ -50,6 +50,7 @@ export const business: AppConfig = {
       image: "/behandlinger/hjemmebesoeg.png",
       imageAlt: "Frisør klar til hjemmebesøg",
       active: true,
+      gender: "male",
       base: {
         street: "[RET DETTE: din vej og nummer]",
         postalCode: "2770",

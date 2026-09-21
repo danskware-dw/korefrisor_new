@@ -10,7 +10,7 @@ Gå til **`/admin` → Indstillinger**, når du er logget ind, og udfyld:
 
 ### Obligatorisk — erstatter `[RET DETTE: ...]`-pladsholdere:
 
-- [ ] **Firmanavn** — fx "Kørefrisøren" eller dit rigtige firmanavn
+- [ ] **Firmanavn** — fx "FrisørHjem" eller dit rigtige firmanavn
 - [ ] **Dit navn** — dit fulde navn, som vist på hjemmesiden og i bookingbekræftelser
 - [ ] **Telefonnummer** — dit rigtige telefonnummer (ikke 00 00 00 00)
 - [ ] **E-mail** — din rigtige e-mailadresse (ikke eksempel@...)

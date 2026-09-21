@@ -83,6 +83,10 @@ export default async function ForParorendePage() {
         <Link href="/omraade" className="font-semibold text-brand underline">
           hvor jeg kører
         </Link>
+        . Vil du give klippet som gave i stedet for at booke dagen?{" "}
+        <Link href="/gavekort" className="font-semibold text-brand underline">
+          Se gavekort
+        </Link>
         .
       </p>
     </div>

@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { deleteBooking, getBooking, updateBooking, type Booking } from "@/lib/store";
+import { deleteApplication } from "@/lib/applications";
 import {
   getConfig,
   saveConfig,
@@ -13,7 +14,7 @@ import {
   saveServices,
   saveVacations,
 } from "@/lib/runtime-config";
-import type { DayHours, Employee, Service, Vacation } from "@/config/types";
+import type { DayHours, Employee, EmployeeGender, Service, Vacation } from "@/config/types";
 
 const COOKIE = "admin_adgang";
 
@@ -325,6 +326,13 @@ export async function removeEmployee(formData: FormData): Promise<void> {
   refresh();
 }
 
+export async function deleteJobApplication(formData: FormData): Promise<void> {
+  if (!(await isLoggedIn())) return;
+  const id = String(formData.get("id") ?? "");
+  if (id) await deleteApplication(id);
+  revalidatePath("/admin/medarbejdere");
+}
+
 export async function assignBookingEmployee(formData: FormData): Promise<void> {
   if (!(await isLoggedIn())) return;
   const bookingId = String(formData.get("bookingId") ?? "");
@@ -374,6 +382,9 @@ async function employeeFromForm(
     activeValues.length > 0
       ? activeValues.includes("1") || activeValues.includes("on")
       : (existing?.active ?? true);
+  const genderRaw = String(formData.get("gender") ?? "").trim();
+  const gender: EmployeeGender | undefined =
+    genderRaw === "female" || genderRaw === "male" ? genderRaw : existing?.gender;
 
   let lat = existing?.base.lat ?? config.home.lat;
   let lon = existing?.base.lon ?? config.home.lon;
@@ -416,6 +427,10 @@ async function employeeFromForm(
     image,
     imageAlt: String(formData.get("imageAlt") ?? "").trim() || `${name}, frisør`,
     active,
+    gender,
+    serviceIds: existing?.serviceIds,
+    rating: existing?.rating,
+    reviews: existing?.reviews,
     bio: String(formData.get("bio") ?? "").trim() || existing?.bio,
     qualifications: String(formData.get("qualifications") ?? "")
       .split(",")

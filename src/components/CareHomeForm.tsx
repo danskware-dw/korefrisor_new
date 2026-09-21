@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import type { Employee } from "@/config/types";
+import type { Employee, Service, Travel } from "@/config/types";
 import {
   CARE_HOME_MAX_RESIDENTS,
   CARE_HOME_MIN_RESIDENTS,
@@ -34,14 +34,20 @@ type Step = 1 | 2 | 3 | 4;
 
 export function CareHomeForm({
   employees,
+  services,
   phone,
   maxAdvanceDays,
   home,
+  travel,
+  areaNames,
 }: {
   employees: Employee[];
+  services: Service[];
   phone: string;
   maxAdvanceDays: number;
   home: { lat: number; lon: number; city: string; postalCode: string };
+  travel: Travel;
+  areaNames: string[];
 }) {
   const formId = useId();
   const [step, setStep] = useState<Step>(1);
@@ -312,6 +318,9 @@ export function CareHomeForm({
                         setEmployeeId(employee.id);
                         resetQuote();
                       }}
+                      travel={travel}
+                      areaNames={areaNames}
+                      services={services}
                     />
                   </li>
                 ))}

@@ -72,6 +72,17 @@ CREATE TABLE IF NOT EXISTS message_deliveries (
   send_key text PRIMARY KEY,
   delivered_at timestamptz NOT NULL DEFAULT now()
 );
+
+CREATE TABLE IF NOT EXISTS job_applications (
+  id text PRIMARY KEY,
+  created_at timestamptz NOT NULL,
+  name text NOT NULL,
+  phone text NOT NULL,
+  city text NOT NULL,
+  message text NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS job_applications_created_idx ON job_applications (created_at DESC);
 `;
 
 export const EXCLUSION_SQL = `

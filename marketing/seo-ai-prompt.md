@@ -1,4 +1,4 @@
-# SEO-prompt til Kørefrisøren
+# SEO-prompt til FrisørHjem
 
 Kopiér **Prompt (dansk)** eller **Prompt (English)** ind i et nyt chat. Udfyld `[UDFYLD]` før du sender (navn, telefon, senere domæne).
 
@@ -23,7 +23,7 @@ For hver side nedenfor skal du levere:
 Skriv også 8–12 søgeord/fraser per side, som en dansker ville taste i Google.
 
 ## Brand
-- Navn: Kørefrisøren
+- Navn: FrisørHjem
 - Tagline: Frisør der kører hjem til dig
 - Rolle: udekørende frisør / hjemmeklip / mobil frisør (samme tilbud, tre måder at sige det på)
 - Erfaring: over 4 år
@@ -126,7 +126,7 @@ For each page below deliver:
 Also list 8–12 search phrases a Dane would type in Google for that page.
 
 ## Brand
-- Name: Kørefrisøren
+- Name: FrisørHjem
 - Tagline: Frisør der kører hjem til dig (hairdresser who comes to your home)
 - Same offer, three labels: udekørende frisør / hjemmeklip / mobil frisør
 - Experience: 4+ years

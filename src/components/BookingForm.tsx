@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import type { Employee, Service } from "@/config/types";
+import type { Employee, Service, Travel } from "@/config/types";
 import { FAMILY_EXTRA_PERSON_DISCOUNT_KR, formatDkk, type Quote } from "@/lib/pricing";
 import { RouteMap } from "@/components/map/TravelMap";
 import { ServiceChoice } from "@/components/ServiceChoice";
@@ -62,8 +62,11 @@ type BookingFormProps = {
   phone: string;
   maxAdvanceDays: number;
   home: { lat: number; lon: number; city: string; postalCode: string };
+  travel: Travel;
+  areaNames: string[];
   initialServiceId?: string;
   initialForRelative?: boolean;
+  initialAddressQuery?: string;
 };
 
 export function BookingForm({
@@ -72,8 +75,11 @@ export function BookingForm({
   phone,
   maxAdvanceDays,
   home,
+  travel,
+  areaNames,
   initialServiceId,
   initialForRelative = false,
+  initialAddressQuery = "",
 }: BookingFormProps) {
   const formId = useId();
   const [employeeId, setEmployeeId] = useState<string>(() =>
@@ -92,9 +98,11 @@ export function BookingForm({
   const [repeatWeeks, setRepeatWeeks] = useState<number | "">("");
   const [smsDayBefore, setSmsDayBefore] = useState(true);
 
-  const [addressQuery, setAddressQuery] = useState("");
+  const [addressQuery, setAddressQuery] = useState(initialAddressQuery);
   const [suggestions, setSuggestions] = useState<AddressSuggestion[]>([]);
   const [address, setAddress] = useState<AddressSuggestion | null>(null);
+  const [locating, setLocating] = useState(false);
+  const geoTried = useRef(false);
 
   const [quote, setQuote] = useState<Quote | null>(null);
   const [route, setRoute] = useState<RouteInfo | null>(null);
@@ -194,6 +202,35 @@ export function BookingForm({
       clearTimeout(timer);
     };
   }, [addressQuery, address]);
+
+  // Nærmeste danske adresse fra enhedens position, når kunden når adresse-trinnet.
+  useEffect(() => {
+    if (step !== 3 || address || addressQuery.trim() || geoTried.current) return;
+    if (!navigator.geolocation) return;
+    geoTried.current = true;
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const response = await fetch(
+            `/api/adresser?lat=${position.coords.latitude}&lon=${position.coords.longitude}`,
+          );
+          const data = (await response.json()) as { suggestions?: AddressSuggestion[] };
+          const hit = data.suggestions?.[0];
+          if (hit) {
+            setAddress(hit);
+            setSuggestions([]);
+          }
+        } catch {
+          /* position er frivillig — kunden kan skrive adressen */
+        } finally {
+          setLocating(false);
+        }
+      },
+      () => setLocating(false),
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 60_000 },
+    );
+  }, [step, address, addressQuery]);
 
   // Pris, afstand og rute beregnes på serveren, hver gang valg eller adresse ændres.
   useEffect(() => {
@@ -735,15 +772,20 @@ export function BookingForm({
             <StepHeading
               step={2}
               title="Hvem skal komme?"
-              hint="Vælg frisør. Du kan se billede og hvor personen kører fra."
+              hint="Vælg frisør. Du kan se køn, kørsel, område, behandlinger og anmeldelser."
             />
-            <ul className="mt-6 grid gap-5 sm:grid-cols-2">
+            <ul className={`mt-6 grid gap-5 ${employees.length > 1 ? "sm:grid-cols-2" : ""}`}>
               {employees.map((employee) => (
                 <li key={employee.id}>
                   <EmployeeChoice
                     employee={employee}
                     selected={employeeId === employee.id}
                     onSelect={() => selectEmployee(employee.id)}
+                    travel={travel}
+                    areaNames={areaNames}
+                    services={services}
+                    onConfirm={tryAdvance}
+                    confirmDisabled={!employeeId}
                   />
                 </li>
               ))}
@@ -765,29 +807,38 @@ export function BookingForm({
             <StepHeading
               step={3}
               title="Hvor og hvornår?"
-              hint="Vælg adressen fra listen, se den låste pris, og vælg så dag og tid."
+              hint="Vi udfylder med din position, hvis du giver lov. Ellers vælg adressen fra listen, se den låste pris, og vælg så dag og tid."
             />
 
             <label htmlFor={`${formId}-adresse`} className="mt-6 block text-lg font-semibold">
               Din adresse
             </label>
-            <input
-              id={`${formId}-adresse`}
-              type="text"
-              autoComplete="street-address"
-              value={address ? address.text : addressQuery}
-              onChange={(e) => {
-                setAddress(null);
-                setSuggestions([]);
-                setAddressQuery(e.target.value);
-                resetDerived();
-              }}
-              placeholder="Fx Kastrupvej 12, 2770 Kastrup"
-              className={`${fieldClass} mt-2`}
-              aria-describedby={`${formId}-adresse-hjaelp`}
-            />
+            <div className="mt-2 flex flex-col gap-2 rounded-2xl border-2 border-line bg-surface p-2 focus-within:border-brand sm:flex-row sm:items-center sm:rounded-full">
+              <span className="flex min-h-14 flex-1 items-center">
+                <span className="pl-3 text-brand" aria-hidden="true">
+                  <PinIcon />
+                </span>
+                <input
+                  id={`${formId}-adresse`}
+                  type="text"
+                  autoComplete="street-address"
+                  value={address ? address.text : addressQuery}
+                  onChange={(e) => {
+                    setAddress(null);
+                    setSuggestions([]);
+                    setAddressQuery(e.target.value);
+                    resetDerived();
+                  }}
+                  placeholder={locating ? "Finder din adresse …" : "Skriv din adresse"}
+                  className="min-h-14 flex-1 border-0 bg-transparent px-3 text-lg outline-none"
+                  aria-describedby={`${formId}-adresse-hjaelp`}
+                />
+              </span>
+            </div>
             <p id={`${formId}-adresse-hjaelp`} className="mt-2 text-ink-soft">
-              Adresserne kommer fra Danmarks officielle adresseregister.
+              {locating
+                ? "Finder den nærmeste adresse ud fra din position. Du kan rette den."
+                : "Hvis du giver lov, udfylder vi feltet med din position. Ellers skriv adressen — den kommer fra Danmarks officielle adresseregister."}
             </p>
 
             {suggestions.length > 0 && (
@@ -1281,6 +1332,23 @@ function CheckIcon({ className = "size-5" }: { className?: string }) {
       className={className}
     >
       <path d="M20 6 9 17l-5-5" />
+    </svg>
+  );
+}
+
+function PinIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="size-6"
+    >
+      <path d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11Z" />
+      <circle cx="12" cy="10" r="2.5" />
     </svg>
   );
 }

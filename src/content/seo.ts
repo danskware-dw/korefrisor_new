@@ -32,7 +32,7 @@ export const homeSeo: PageSeo = {
     "book hjemmeklip",
   ],
   paragraphs: [
-    "Jeg hedder Raed og driver Kørefrisøren: udekørende frisør med base i Kastrup, 2770. Du booker et hjemmeklip, skriver adressen, og jeg kommer med sakse, maskine, kappe og tæppe. Du skal kun finde en stol frem.",
+    "Jeg hedder Raed og driver FrisørHjem: udekørende frisør med base i Kastrup, 2770. Du booker et hjemmeklip, skriver adressen, og jeg kommer med sakse, maskine, kappe og tæppe. Du skal kun finde en stol frem.",
     "Det passer til dig, der hellere sidder i egen stue end i en salon. Det passer også til pårørende, der booker for mor, far eller bedsteforældre — og til børn, der er tryggere hjemme.",
     "Klip koster 350 kr og tager 45 minutter. Pensionistklip er 325 kr og 50 minutter, med ro og ekstra tid. Jeg klipper gerne siddende, også ved gangbesvær, rollator eller i kørestol. Børneklip til under 12 år er 225 kr og 30 minutter, i barnets tempo.",
     "Til klippet kan du vælge skægklip (150 kr), pandehår (75 kr) eller retning af bryn (75 kr). Kørsel vises, før du bekræfter: 0–5 km er 0 kr, derefter 49, 99 eller 149 kr ud til 30 km. Flere personer samme sted: kørsel kun én gang, og 50 kr rabat per ekstra person.",
@@ -127,7 +127,7 @@ export const priserSeo: PageSeo = {
 export const behandlingerSeo: PageSeo = {
   title: "Behandlinger: klip, pensionist og børn",
   description:
-    "Hjemmeklip hos Kørefrisøren: klip, pensionistklip og børneklip. Tillæg til skæg, pandehår og bryn. Alt foregår i dit hjem i Kastrup og omegn.",
+    "Hjemmeklip hos FrisørHjem: klip, pensionistklip og børneklip. Tillæg til skæg, pandehår og bryn. Alt foregår i dit hjem i Kastrup og omegn.",
   h1: "Behandlinger — hjemmeklip til voksne, ældre og børn",
   keywords: [
     "hjemmeklip behandlinger",
@@ -192,7 +192,7 @@ export const omraadeSeo: PageSeo = {
     "kørselszone frisør",
   ],
   paragraphs: [
-    "Kørefrisøren har base i Kastrup, postnummer 2770. Derfra kører jeg som mobil frisør op til 30 km. Du booker med din adresse, og kørselsprisen vises, før du bekræfter.",
+    "FrisørHjem har base i Kastrup, postnummer 2770. Derfra kører jeg som mobil frisør op til 30 km. Du booker med din adresse, og kørselsprisen vises, før du bekræfter.",
     "Områderne er Kastrup og Tårnby (2770), Dragør (2791), Amager og København S (2300, 2450), Ørestad (2300), Valby (2500) og Frederiksberg (1800, 2000). Inden for 5 km er kørsel 0 kr. 5–10 km koster 49 kr, 10–20 km 99 kr, 20–30 km 149 kr.",
     "Kastrup og store dele af Tårnby ligger ofte i den gratis zone. Dragør, Ørestad og indre Amager ligger typisk i 49- eller 99-kr-zonen. Valby og Frederiksberg ligger oftere længere ude, så tillægget kan være 99 eller 149 kr. Den præcise zone afhænger af din adresse, ikke af bynavnet alene.",
     "Jeg klipper i huse, lejligheder, ældreboliger og på plejehjem. Trapper uden elevator er okay, hvis du skriver det i noten, så jeg ved, hvad jeg kommer til.",
@@ -241,7 +241,7 @@ export const forParorendeSeo: PageSeo = {
     "mobil frisør til ældre",
   ],
   paragraphs: [
-    "Det er ofte en datter, en søn eller et barnebarn, der tager fat, når mor eller far ikke længere kommer afsted til frisøren. Hos Kørefrisøren booker du med deres adresse og dit telefonnummer. Du kan få faktura. De skal bare sidde klar i stolen, når jeg kommer.",
+    "Det er ofte en datter, en søn eller et barnebarn, der tager fat, når mor eller far ikke længere kommer afsted til frisøren. Hos FrisørHjem booker du med deres adresse og dit telefonnummer. Du kan få faktura. De skal bare sidde klar i stolen, når jeg kommer.",
     "Pensionistklip er 325 kr og 50 minutter. Jeg klipper gerne siddende, også ved gangbesvær, rollator eller i kørestol. Almindeligt klip er 350 kr, hvis det passer bedre. Kørsel fra Kastrup vises, før du bekræfter: 0–149 kr efter km, max 30 km.",
     "Du betaler med MobilePay, når du booker, eller du kan få faktura. Afbud mindst 24 timer før er gratis; ellers 100 kr. Dagen før kan der sendes besked, så I husker tiden.",
     "Jeg kører til Kastrup, Tårnby, Dragør, Amager, Ørestad, København S, Valby og Frederiksberg. Bor de på plejehjem eller bosted, og skal flere klippes samme dag, så brug booking til plejehjem: én kørsel, én faktura, fast ugedag.",
@@ -273,6 +273,105 @@ export const forParorendeSeo: PageSeo = {
       question: "Hvad koster det for mig som pårørende?",
       answer:
         "Samme priser: behandling plus kørsel. Du ser totalen før bekræftelse.",
+    },
+  ],
+};
+
+export const gavekortSeo: PageSeo = {
+  title: "Gavekort til hjemmeklip",
+  description:
+    "Giv et hjemmeklip i gave. Du betaler klippet. De booker, når det passer. Børneklip 225 kr, pensionistklip 325 kr, klip 350 kr. Ring og køb.",
+  h1: "Giv et hjemmeklip",
+  keywords: [
+    "gavekort hjemmeklip",
+    "gavekort frisør",
+    "gavekort pensionistklip",
+    "frisør i gave",
+    "hjemmeklip gave",
+    "gavekort udekørende frisør",
+    "gavekort børneklip",
+    "mobil frisør gavekort",
+    "klip i gave hjemme",
+    "gavekort til mor far",
+  ],
+  paragraphs: [
+    "Et gavekort hos FrisørHjem er et betalt klip, som den anden booker, når det passer. Der er ingen salonpose og ingen tid, I skal ramme sammen. Jeg kommer hjem til dem med sakse, maskine, kappe og tæppe.",
+    "Du vælger børneklip, pensionistklip eller almindeligt klip og ringer. Vi aftaler beløbet, du betaler med MobilePay, og jeg sender en besked til den, gaven er til — eller til dig, hvis det skal være en overraskelse.",
+    "Kørsel hører ikke med i gavekortet. Den vises, når de skriver adressen i bookingen, ligesom alle andre tider. De første 5 km er 0 kr.",
+    "Vil du hellere styre dagen selv, så book som pårørende: deres adresse, dit telefonnummer, og du kan få faktura.",
+  ],
+  faq: [
+    {
+      question: "Skal de booke med det samme?",
+      answer:
+        "Nej. Du betaler klippet. De vælger tid, når det passer dem.",
+    },
+    {
+      question: "Er kørsel med i prisen?",
+      answer:
+        "Nej. Gavekortet dækker klippet. Kørsel vises, når de skriver adressen — de første 5 km er 0 kr.",
+    },
+    {
+      question: "Kan jeg booke tiden for dem i stedet?",
+      answer:
+        "Ja. Så er det ikke et gavekort, men en almindelig booking som pårørende.",
+    },
+    {
+      question: "Hvordan køber jeg det?",
+      answer:
+        "Ring. Vi aftaler klip og beløb, du betaler med MobilePay, og jeg sender beskeden.",
+    },
+    {
+      question: "Hvad hvis de bor for langt væk?",
+      answer:
+        "Bookingen viser det på adressen. Er I i tvivl, så ring, inden du køber.",
+    },
+  ],
+};
+
+export const jobSeo: PageSeo = {
+  title: "Bliv udekørende frisør",
+  description:
+    "Søg som udekørende frisør hos FrisørHjem. Ingen salon. Du kører hjem til kunderne fra dit eget udgangspunkt. Bookinger sker på sitet. Send ansøgning eller ring.",
+  h1: "Bliv udekørende frisør",
+  keywords: [
+    "udekørende frisør job",
+    "bliv hjemmefrisør",
+    "mobil frisør stilling",
+    "frisør job Kastrup",
+    "hjemmeklip job",
+    "frisør uden salon",
+    "udekørende frisør søges",
+    "frisør job Amager",
+    "hjemmefrisør arbejde",
+    "frisør kører ud job",
+  ],
+  paragraphs: [
+    "FrisørHjem søger udekørende frisører. Der er ingen salon. Du kører hjem til kunden med dit eget udstyr, fra dit eget udgangspunkt.",
+    "Kunderne booker klip, pensionistklip og børneklip på sitet. Du ser dine tider i dashboardet. Kørsel beregnes fra den adresse, du kører ud fra.",
+    "Søg med navn, telefon og det område, du kører fra — eller ring. Vi taler sammen, før nogen kommer på siden.",
+  ],
+  faq: [
+    {
+      question: "Skal jeg have en salon?",
+      answer: "Nej. Arbejdet er hjemme hos kunden.",
+    },
+    {
+      question: "Hvor kører jeg fra?",
+      answer:
+        "Fra dit eget udgangspunkt. Kørselsprisen beregnes derfra, ligesom for de andre frisører.",
+    },
+    {
+      question: "Hvad klipper vi?",
+      answer: "Klip, pensionistklip og børneklip. Skæg, pandehår og bryn som tillæg.",
+    },
+    {
+      question: "Hvordan søger jeg?",
+      answer: "Send skemaet her på siden, eller ring. Vi ringer tilbage.",
+    },
+    {
+      question: "Hvad er vilkårene?",
+      answer: "Det aftaler vi, når vi har talt sammen.",
     },
   ],
 };
@@ -332,10 +431,10 @@ export const saadanSeo: PageSeo = {
 export const omMigSeo: PageSeo = {
   title: "Om mig – udekørende frisør i Kastrup",
   description:
-    "Jeg hedder Raed og driver Kørefrisøren: udekørende frisør med over 4 års erfaring og base i Kastrup, 2770. Hjemmeklip til ældre, familier og børn. Ingen salon — jeg kører til dig.",
+    "Jeg hedder Raed og driver FrisørHjem: udekørende frisør med over 4 års erfaring og base i Kastrup, 2770. Hjemmeklip til ældre, familier og børn. Ingen salon — jeg kører til dig.",
   h1: "Om mig — frisør der kører hjem til dig",
   keywords: [
-    "Kørefrisøren",
+    "FrisørHjem",
     "Raed frisør Kastrup",
     "udekørende frisør Kastrup",
     "mobil frisør om",
@@ -344,11 +443,11 @@ export const omMigSeo: PageSeo = {
     "frisør 2770",
     "hjemmeklip erfaring",
     "udekørende frisør Amager",
-    "hvem er Kørefrisøren",
+    "hvem er FrisørHjem",
     "frisør uden salon",
   ],
   paragraphs: [
-    "Jeg hedder Raed og driver Kørefrisøren: udekørende frisør med base i Kastrup, 2770, og over fire års erfaring. Der er ingen salonstol og intet venteværelse. Arbejdspladsen er din stue, dit køkken eller fællesrummet på et plejehjem.",
+    "Jeg hedder Raed og driver FrisørHjem: udekørende frisør med base i Kastrup, 2770, og over fire års erfaring. Der er ingen salonstol og intet venteværelse. Arbejdspladsen er din stue, dit køkken eller fællesrummet på et plejehjem.",
     "Jeg klipper dem, der ikke vil eller ikke kan komme afsted: ældre med gangbesvær, mennesker i kørestol, børn der er tryggere hjemme, og folk der bare hellere sidder i egen sofa. Pårørende booker ofte, og det er en naturlig del af hverdagen.",
     "Behandlingerne er klip, pensionistklip og børneklip, plus små tillæg til skæg, pandehår og bryn. Jeg farver ikke og lover ikke salon-styling. Jeg lover at komme til tiden, klippe i roligt tempo og rydde op efter mig.",
     "Jeg kører op til 30 km fra Kastrup — Tårnby, Dragør, Amager, Ørestad, København S, Valby og Frederiksberg. Du ser prisen, før du bekræfter, og betaler med MobilePay, når du booker.",
@@ -392,7 +491,7 @@ export const kontaktSeo: PageSeo = {
     "frisør 2770 kontakt",
     "book hjemmeklip online",
     "plejehjem frisør kontakt",
-    "Kørefrisøren kontakt",
+    "FrisørHjem kontakt",
     "udekørende frisør København kontakt",
   ],
   paragraphs: [
@@ -428,7 +527,7 @@ export const kontaktSeo: PageSeo = {
 export const bookSeo: PageSeo = {
   title: "Book hjemmeklip – udekørende frisør",
   description:
-    "Book klip, pensionistklip eller børneklip. Skriv adressen, se kørsel og total, betal med MobilePay. Kørefrisøren kører hjem til dig fra Kastrup.",
+    "Book klip, pensionistklip eller børneklip. Skriv adressen, se kørsel og total, betal med MobilePay. FrisørHjem kører hjem til dig fra Kastrup.",
   h1: "Book en tid",
   keywords: [
     "book hjemmeklip",
@@ -443,7 +542,7 @@ export const bookSeo: PageSeo = {
     "book frisør der kommer hjem",
   ],
   paragraphs: [
-    "Her booker du hjemmeklip hos Kørefrisøren. Vælg klip (350 kr, 45 min), pensionistklip (325 kr, 50 min) eller børneklip (225 kr, 30 min). Læg skæg, pandehår eller bryn til, hvis du vil. Skriv adressen, så du ser kørsel: 0 kr inden for 5 km, derefter 49, 99 eller 149 kr op til 30 km.",
+    "Her booker du hjemmeklip hos FrisørHjem. Vælg klip (350 kr, 45 min), pensionistklip (325 kr, 50 min) eller børneklip (225 kr, 30 min). Læg skæg, pandehår eller bryn til, hvis du vil. Skriv adressen, så du ser kørsel: 0 kr inden for 5 km, derefter 49, 99 eller 149 kr op til 30 km.",
     "Flere personer samme sted: kørsel tælles én gang, og hver ekstra person får 50 kr rabat. Booker du for en pårørende, bruger du deres adresse og dit telefonnummer. Faktura er muligt til pårørende.",
     "Du betaler med MobilePay, når du booker — inden jeg kører. Tiden er først låst, når betalingen følger den proces, du ser på siden. Afbud mindst 24 timer før er gratis; ellers 100 kr.",
     "Jeg kører fra Kastrup til Tårnby, Dragør, Amager, Ørestad, København S, Valby og Frederiksberg. Ligger adressen uden for 30 km, kan bookingen ikke gennemføres som almindeligt hjemmebesøg.",
@@ -554,7 +653,7 @@ export const serviceSeo: Record<string, ServiceSeo> = {
       "book klip hjemme",
     ],
     paragraphs: [
-      "Et klip hos Kørefrisøren er 350 kr og 45 minutter. Det er saks og maskine, tilpasset dit hår, ved dit eget bord eller i din stol. Du slipper for at komme afsted, parkere og vente i en salon.",
+      "Et klip hos FrisørHjem er 350 kr og 45 minutter. Det er saks og maskine, tilpasset dit hår, ved dit eget bord eller i din stol. Du slipper for at komme afsted, parkere og vente i en salon.",
       "Jeg kører fra Kastrup. Inden du bekræfter, ser du kørselstillægget for din adresse: gratis inden for 5 km, derefter 49, 99 eller 149 kr op til 30 km. Er I flere, tælles kørsel kun én gang, og den ekstra person får 50 kr rabat.",
       "Til klippet kan du lægge skægklip til 150 kr, pandehår til 75 kr eller retning af bryn til 75 kr. Betaling er MobilePay, når du booker — inden jeg kører. Pårørende kan få faktura, hvis de booker for dig.",
       "Du skal have en stol klar og plads til, at jeg kan gå rundt. Håret må gerne være tørt. Jeg har kappe, tæppe og produkter med og fejer op bagefter.",
@@ -794,7 +893,7 @@ export const areaSeo: Record<string, PageSeo> = {
       },
       {
         question: "Er det den samme frisør hver gang?",
-        answer: "Ja. Det er Kørefrisøren, der kommer hjem til jer.",
+        answer: "Ja. Det er FrisørHjem, der kommer hjem til jer.",
       },
     ],
   },

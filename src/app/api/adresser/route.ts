@@ -17,6 +17,13 @@ type DawaAddress = {
   };
 };
 
+type DawaReverse = {
+  id?: string;
+  adressebetegnelse?: string;
+  postnummer?: { nr?: string; navn?: string };
+  adgangspunkt?: { koordinater?: [number, number] };
+};
+
 export type AddressSuggestion = {
   id: string;
   text: string;
@@ -26,8 +33,32 @@ export type AddressSuggestion = {
   lon: number;
 };
 
+  // ponytail: nearest access address (building), not floor/door — user can correct
+export function suggestionFromReverse(data: DawaReverse): AddressSuggestion | null {
+  const coords = data.adgangspunkt?.koordinater;
+  const postal = data.postnummer;
+  if (!data.id || !data.adressebetegnelse || !coords || !postal?.nr || !postal.navn) {
+    return null;
+  }
+  return {
+    id: data.id,
+    text: data.adressebetegnelse,
+    postalCode: postal.nr,
+    city: postal.navn,
+    lat: coords[1],
+    lon: coords[0],
+  };
+}
+
 export async function GET(request: Request) {
-  const query = new URL(request.url).searchParams.get("q")?.trim() ?? "";
+  const params = new URL(request.url).searchParams;
+  const lat = Number(params.get("lat"));
+  const lon = Number(params.get("lon"));
+  if (Number.isFinite(lat) && Number.isFinite(lon)) {
+    return reverseLookup(lat, lon);
+  }
+
+  const query = params.get("q")?.trim() ?? "";
   if (query.length < 3) return NextResponse.json({ suggestions: [] });
 
   const url = new URL("https://api.dataforsyningen.dk/adresser/autocomplete");
@@ -55,6 +86,27 @@ export async function GET(request: Request) {
       }));
 
     return NextResponse.json({ suggestions });
+  } catch {
+    return NextResponse.json(
+      { suggestions: [], error: "Adresseopslaget kunne ikke nås. Prøv igen." },
+      { status: 502 },
+    );
+  }
+}
+
+async function reverseLookup(lat: number, lon: number) {
+  const url = new URL("https://api.dataforsyningen.dk/adgangsadresser/reverse");
+  url.searchParams.set("x", String(lon));
+  url.searchParams.set("y", String(lat));
+
+  try {
+    const response = await fetch(url, {
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+    });
+    if (!response.ok) throw new Error(`DAWA svarede ${response.status}`);
+    const suggestion = suggestionFromReverse((await response.json()) as DawaReverse);
+    return NextResponse.json({ suggestions: suggestion ? [suggestion] : [] });
   } catch {
     return NextResponse.json(
       { suggestions: [], error: "Adresseopslaget kunne ikke nås. Prøv igen." },

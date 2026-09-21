@@ -1,4 +1,4 @@
-# Outreach-pitch — Kørefrisøren (plejehjem / bosted)
+# Outreach-pitch — FrisørHjem (plejehjem / bosted)
 
 Udfyld [NAVN], [TELEFON], [E-MAIL] før du sender. Send ikke med example.dk / 00 00 00 00.
 
@@ -23,7 +23,7 @@ Hvis de har frisør i forvejen: “Forstår jeg. Hvis I nogensinde mangler aflø
 
 Hej [NAVN / aktivitetsteam / leder],
 
-Jeg hedder [NAVN] og driver Kørefrisøren — mobil frisør baseret i Kastrup (2770). Jeg kommer ud til beboere med eget udstyr.
+Jeg hedder [NAVN] og driver FrisørHjem — mobil frisør baseret i Kastrup (2770). Jeg kommer ud til beboere med eget udstyr.
 
 Jeg tilbyder **fast ugedag** hos jer:
 
@@ -39,7 +39,7 @@ Må jeg booke et **pilotbesøg** en formiddag i de næste 2–3 uger, så I kan 
 
 Venlig hilsen  
 [NAVN]  
-Kørefrisøren  
+FrisørHjem  
 Tlf. [TELEFON]  
 [E-MAIL]
 

@@ -1,4 +1,4 @@
-# Kørefrisøren — hjemmeside med booking og dashboard
+# FrisørHjem — hjemmeside med booking og dashboard
 
 Hjemmeside til en mobil frisør i Kastrup, der kører hjem til kunderne.
 Kunden vælger klip, pensionistklip eller børneklip, skriver sin adresse, og

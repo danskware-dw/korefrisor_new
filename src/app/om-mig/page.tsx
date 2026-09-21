@@ -27,6 +27,13 @@ export default async function OmMigPage() {
           {showName && (
             <p className="mt-5 text-xl text-ink-soft">Jeg hedder {config.ownerName}.</p>
           )}
+          {me && (
+            <p className="mt-4">
+              <Link href={`/frisorer/${me.id}`} className="font-semibold text-brand underline">
+                Se min profil
+              </Link>
+            </p>
+          )}
           <p className="mt-5 text-xl text-ink-soft">{omMigSeo.paragraphs[0]}</p>
         </div>
 
@@ -83,7 +90,9 @@ export default async function OmMigPage() {
                       className="aspect-square w-full rounded-lg object-cover"
                     />
                     <h3 className="mt-4 text-xl font-bold">
-                      {isPlaceholderName(employee.name) ? employee.role : employee.name}
+                      <Link href={`/frisorer/${employee.id}`} className="underline">
+                        {isPlaceholderName(employee.name) ? employee.role : employee.name}
+                      </Link>
                     </h3>
                     <p className="text-ink-soft">{employee.role}</p>
                     {employee.bio && <p className="mt-2 text-lg">{employee.bio}</p>}

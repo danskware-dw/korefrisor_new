@@ -19,7 +19,7 @@ export async function GET(
     "VERSION:2.0",
     `PRODID:-//${config.name}//hjemmeklip//DA`,
     "BEGIN:VEVENT",
-    `UID:${booking.id}@korefrisoren`,
+    `UID:${booking.id}@frisorhjem`,
     `DTSTAMP:${stamp(new Date())}`,
     `DTSTART:${stamp(start)}`,
     `DTEND:${stamp(end)}`,

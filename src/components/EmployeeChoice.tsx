@@ -1,77 +1,110 @@
 "use client";
 
 import Image from "next/image";
-import type { Employee } from "@/config/types";
+import Link from "next/link";
+import type { Employee, Service, Travel } from "@/config/types";
+import { EmployeeFacts } from "@/components/EmployeeFacts";
 import { formatEmployeeBase } from "@/lib/employees";
 
 type Props = {
   employee: Employee;
   selected: boolean;
   onSelect: () => void;
+  travel: Travel;
+  areaNames: string[];
+  services: Service[];
+  onConfirm?: () => void;
+  confirmDisabled?: boolean;
 };
 
 /**
- * Vælg-frisør-kort i bookingen: foto, navn, rolle og hvor personen kører fra.
+ * Vælg-frisør-kort i bookingen: rundt foto, fakta og link til profil.
  */
-export function EmployeeChoice({ employee, selected, onSelect }: Props) {
+export function EmployeeChoice({
+  employee,
+  selected,
+  onSelect,
+  travel,
+  areaNames,
+  services,
+  onConfirm,
+  confirmDisabled,
+}: Props) {
   const address = formatEmployeeBase(employee.base);
 
   return (
-    <label
-      className={`flex h-full cursor-pointer flex-col overflow-hidden rounded-card border-2 bg-surface ${
+    <div
+      className={`flex h-full flex-col rounded-card border-2 bg-surface p-5 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent ${
         selected ? "border-accent" : "border-line hover:border-brand"
       }`}
     >
-      <span className="relative block">
-        <Image
-          src={employee.image}
-          alt={employee.imageAlt}
-          width={640}
-          height={640}
-          sizes="(min-width: 640px) 45vw, 92vw"
-          className="aspect-square w-full object-cover"
-        />
-        <span
-          aria-hidden="true"
-          className={`absolute right-3 top-3 grid size-10 place-items-center rounded-full border-2 ${
-            selected
-              ? "border-accent bg-accent text-white"
-              : "border-line bg-surface/90 text-transparent"
-          }`}
-        >
-          <CheckIcon />
+      <label className="flex flex-1 cursor-pointer flex-col items-center text-center sm:flex-row sm:items-start sm:text-left">
+        <span className="relative shrink-0">
+          <Image
+            src={employee.image}
+            alt={employee.imageAlt}
+            width={160}
+            height={160}
+            sizes="160px"
+            className="size-28 rounded-full border border-line object-cover"
+          />
+          <span
+            aria-hidden="true"
+            className={`absolute right-0 top-0 grid size-10 place-items-center rounded-full border-2 ${
+              selected
+                ? "border-accent bg-accent text-white"
+                : "border-line bg-surface text-transparent"
+            }`}
+          >
+            <CheckIcon />
+          </span>
         </span>
-      </span>
 
-      <span className="flex flex-1 items-start gap-4 p-5">
-        <input
-          type="radio"
-          name="employee"
-          checked={selected}
-          onChange={onSelect}
-          className="mt-1 size-6 shrink-0 accent-[var(--color-accent)]"
-        />
-        <span className="flex-1">
+        <span className="mt-4 flex-1 sm:mt-0 sm:ml-5">
+          <input
+            type="radio"
+            name="employee"
+            checked={selected}
+            onChange={onSelect}
+            className="sr-only"
+          />
           <span className="block text-lg font-bold">{employee.name}</span>
           <span className="block text-ink-soft">{employee.role}</span>
-          {employee.bio && (
-            <span className="mt-2 block text-base text-ink">{employee.bio}</span>
-          )}
-          {employee.qualifications && employee.qualifications.length > 0 && (
-            <span className="mt-2 block text-base text-ink-soft">
-              {employee.qualifications.join(" · ")}
-            </span>
-          )}
-          <span className="mt-3 flex items-start gap-2 text-base text-ink-soft">
+          <span className="mt-2 flex items-start justify-center gap-2 text-base text-ink-soft sm:justify-start">
             <PinIcon />
             <span>
-              <span className="block font-semibold text-ink">Kører fra</span>
+              <span className="font-semibold text-ink">Kører fra </span>
               {address}
             </span>
           </span>
+          <EmployeeFacts
+            employee={employee}
+            travel={travel}
+            areaNames={areaNames}
+            services={services}
+            compact
+          />
         </span>
-      </span>
-    </label>
+      </label>
+      <div className="mt-4 flex flex-col gap-3">
+        <Link
+          href={`/frisorer/${employee.id}`}
+          className="text-lg font-semibold text-brand underline"
+        >
+          Se profil
+        </Link>
+        {selected && onConfirm && (
+          <button
+            type="button"
+            onClick={onConfirm}
+            disabled={confirmDisabled}
+            className="inline-flex min-h-14 w-full items-center justify-center rounded-lg bg-accent px-6 py-3 text-xl font-bold text-white hover:bg-accent-dark disabled:cursor-not-allowed disabled:bg-ink-soft disabled:opacity-60"
+          >
+            Godkend
+          </button>
+        )}
+      </div>
+    </div>
   );
 }
 

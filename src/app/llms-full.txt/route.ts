@@ -36,7 +36,10 @@ ${config.name} er ${config.ownerName}s udekørende frisør i ${config.home.city}
 - Prices: ${config.siteUrl}/priser
 - How it works: ${config.siteUrl}/saadan-foregaar-det
 - For family/caregivers: ${config.siteUrl}/for-parorende
+- Gift voucher: ${config.siteUrl}/gavekort
+- Join as hairdresser: ${config.siteUrl}/bliv-frisor
 - Areas overview: ${config.siteUrl}/omraade
+- Hairdressers: ${config.siteUrl}/frisorer
 - Contact: ${config.siteUrl}/kontakt
 - Short AI file: ${config.siteUrl}/llms.txt
 

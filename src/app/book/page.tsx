@@ -13,11 +13,11 @@ export const metadata: Metadata = pageMetadata(bookSeo, "/book");
 export default async function BookPage({
   searchParams,
 }: {
-  searchParams: Promise<{ behandling?: string; parorende?: string }>;
+  searchParams: Promise<{ behandling?: string; parorende?: string; adresse?: string }>;
 }) {
   const config = await getConfig();
   const services = bookableServicesOf(config);
-  const { behandling, parorende } = await searchParams;
+  const { behandling, parorende, adresse } = await searchParams;
   const showPhone = !isPlaceholderPhone(config.phone);
 
   return (
@@ -57,8 +57,11 @@ export default async function BookPage({
           city: config.home.city,
           postalCode: config.home.postalCode,
         }}
+        travel={config.travel}
+        areaNames={config.areas.map((area) => area.name)}
         initialServiceId={behandling}
         initialForRelative={parorende === "1"}
+        initialAddressQuery={adresse?.trim() ?? ""}
       />
 
       <FaqList items={bookSeo.faq} />

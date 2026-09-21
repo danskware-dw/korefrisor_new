@@ -30,6 +30,14 @@ export type EmployeeBase = {
   lon: number;
 };
 
+export type EmployeeGender = "male" | "female";
+
+export type EmployeeReview = {
+  quote: string;
+  name: string;
+  area?: string;
+};
+
 export type Employee = {
   id: string;
   name: string;
@@ -41,6 +49,12 @@ export type Employee = {
   base: EmployeeBase;
   /** false = skjult i booking, men stadig synlig i dashboard. */
   active: boolean;
+  gender?: EmployeeGender;
+  /** Behandlinger personen tilbyder. Tom = alle bookbare. */
+  serviceIds?: string[];
+  /** Kun udfyldt når der er rigtige anmeldelser — opfind ikke tal. */
+  rating?: { average: number; count: number };
+  reviews?: EmployeeReview[];
   bio?: string;
   qualifications?: string[];
   exampleImages?: string[];

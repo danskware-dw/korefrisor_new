@@ -71,9 +71,12 @@ export async function SiteFooter() {
           <ul className="mt-3 space-y-1">
             {[
               { href: "/book", label: "Book en tid" },
+              { href: "/gavekort", label: "Gavekort" },
+              { href: "/bliv-frisor", label: "Bliv frisør" },
               { href: "/priser", label: "Priser" },
               { href: "/for-parorende", label: "For pårørende" },
               { href: "/om-mig", label: "Om mig" },
+              { href: "/frisorer", label: "Frisører" },
               { href: "/behandlinger", label: "Behandlinger" },
               { href: "/omraade", label: "Hvor jeg kører" },
               { href: "/kontakt", label: "Kontakt" },

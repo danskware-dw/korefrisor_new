@@ -3,7 +3,13 @@ import Link from "next/link";
 export type Crumb = { href?: string; label: string };
 
 /** Synlig brødkrumme + schema, så Google og AI forstår sidens plads. */
-export function Breadcrumbs({ items }: { items: Crumb[] }) {
+export function Breadcrumbs({
+  items,
+  className = "text-ink-soft",
+}: {
+  items: Crumb[];
+  className?: string;
+}) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -17,7 +23,7 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
 
   return (
     <>
-      <nav aria-label="Brødkrumme" className="text-ink-soft">
+      <nav aria-label="Brødkrumme" className={className}>
         <ol className="flex flex-wrap items-center gap-x-2">
           {items.map((item, index) => (
             <li key={`${item.label}-${index}`} className="flex items-center gap-2">

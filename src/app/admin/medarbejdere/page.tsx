@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { listApplications } from "@/lib/applications";
 import { formatEmployeeBase } from "@/lib/employees";
 import { summarizeEmployeeWork } from "@/lib/employee-work";
 import { formatDkk } from "@/lib/pricing";
@@ -8,6 +9,7 @@ import { getConfig } from "@/lib/runtime-config";
 import { listBookings } from "@/lib/store";
 import {
   addEmployee,
+  deleteJobApplication,
   removeEmployee,
   requireAdmin,
   setEmployeeActive,
@@ -29,7 +31,11 @@ const statusStyle: Record<string, string> = {
 
 export default async function MedarbejderePage() {
   await requireAdmin();
-  const [config, bookings] = await Promise.all([getConfig(), listBookings()]);
+  const [config, bookings, applications] = await Promise.all([
+    getConfig(),
+    listBookings(),
+    listApplications(),
+  ]);
   const summaries = summarizeEmployeeWork(config.employees, bookings);
 
   const workingToday = summaries.filter((s) => s.statusToday === "skal-arbejde").length;
@@ -43,6 +49,38 @@ export default async function MedarbejderePage() {
         Fuld kontrol over hvem der kan bookes, og oversigt over hvem der har arbejdet —
         eller ikke — i dag.
       </p>
+
+      <section className="mt-10">
+        <h2 className="text-2xl font-bold">Ansøgninger</h2>
+        {applications.length === 0 ? (
+          <p className="mt-3 text-ink-soft">Ingen ansøgninger endnu.</p>
+        ) : (
+          <ul className="mt-4 space-y-4">
+            {applications.map((item) => (
+              <li key={item.id} className="rounded-card border border-line bg-surface p-5">
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div>
+                    <p className="text-xl font-bold">{item.name}</p>
+                    <p className="text-ink-soft">
+                      {item.phone} · {item.city} · {formatWhen(item.createdAt)}
+                    </p>
+                    <p className="mt-3 whitespace-pre-wrap">{item.message}</p>
+                  </div>
+                  <form action={deleteJobApplication}>
+                    <input type="hidden" name="id" value={item.id} />
+                    <button
+                      type="submit"
+                      className="rounded-lg border-2 border-line px-4 py-2 font-semibold text-[#991B1B] hover:border-[#991B1B]"
+                    >
+                      Slet
+                    </button>
+                  </form>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
 
       <ul className="mt-8 grid gap-4 sm:grid-cols-3">
         <li className="rounded-card border border-line bg-surface p-5">
@@ -215,6 +253,18 @@ export default async function MedarbejderePage() {
                           className={`mt-1 ${field}`}
                         />
                       </label>
+                      <label className="block">
+                        <span className="font-semibold">Køn</span>
+                        <select
+                          name="gender"
+                          defaultValue={employee.gender ?? ""}
+                          className={`mt-1 ${field}`}
+                        >
+                          <option value="">Ikke angivet</option>
+                          <option value="male">Mand</option>
+                          <option value="female">Kvinde</option>
+                        </select>
+                      </label>
                       <label className="block sm:col-span-2">
                         <span className="font-semibold">Kort om dig</span>
                         <textarea
@@ -310,6 +360,14 @@ export default async function MedarbejderePage() {
           <label className="block">
             <span className="font-semibold">Rolle</span>
             <input name="role" placeholder="Frisør" className={`mt-1 ${field}`} />
+          </label>
+          <label className="block">
+            <span className="font-semibold">Køn</span>
+            <select name="gender" className={`mt-1 ${field}`}>
+              <option value="">Ikke angivet</option>
+              <option value="male">Mand</option>
+              <option value="female">Kvinde</option>
+            </select>
           </label>
           <label className="block sm:col-span-2">
             <span className="font-semibold">Foto (sti)</span>

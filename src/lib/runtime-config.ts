@@ -47,6 +47,10 @@ export function normalizeEmployee(
     bio: employee.bio,
     qualifications: employee.qualifications,
     exampleImages: employee.exampleImages,
+    gender: employee.gender === "female" || employee.gender === "male" ? employee.gender : undefined,
+    serviceIds: employee.serviceIds,
+    rating: employee.rating,
+    reviews: employee.reviews,
     base: {
       street: employee.base?.street ?? home.street,
       postalCode: employee.base?.postalCode ?? home.postalCode,

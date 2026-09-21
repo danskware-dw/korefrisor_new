@@ -41,7 +41,7 @@ export async function createIsolatedTestDb(): Promise<IsolatedDb> {
     assertNotProduction(fromEnv);
     const sql = createSql(fromEnv, 4);
     await applySchema(sql);
-    await sql`TRUNCATE bookings, settings, payment_events, payment_operations, outbox, message_deliveries CASCADE`;
+    await sql`TRUNCATE bookings, settings, payment_events, payment_operations, outbox, message_deliveries, job_applications CASCADE`;
     return {
       sql,
       url: fromEnv,

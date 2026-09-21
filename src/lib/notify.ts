@@ -1,7 +1,9 @@
 import { formatDkk } from "@/lib/pricing";
 import type { CancelOutcome } from "@/lib/payment-policy";
 import { getConfig } from "@/lib/runtime-config";
+import { isPlaceholderEmail } from "@/lib/placeholders";
 import { visitPrepPlainList } from "@/lib/visit-prep";
+import type { JobApplication } from "@/lib/applications";
 import type { Booking } from "@/lib/store";
 
 /**
@@ -313,6 +315,25 @@ export async function sendExpireMessages(booking: Booking): Promise<void> {
       "",
       "Betalingen kom først, efter reservationens 45 minutter var gået, og tiden er ikke længere ledig.",
       `Book en ny tid eller se detaljer: ${appointmentUrl(booking, config.siteUrl)}`,
+    ].join("\n"),
+    config,
+  );
+}
+
+export async function sendJobApplicationNotice(
+  application: JobApplication,
+): Promise<void> {
+  const config = await getConfig();
+  if (isPlaceholderEmail(config.email)) return;
+  await mail(
+    config.email,
+    `Ny ansøgning fra ${application.name}`,
+    [
+      `${application.name} har søgt som udekørende frisør.`,
+      `Telefon: ${application.phone}`,
+      `Område: ${application.city}`,
+      "",
+      application.message,
     ].join("\n"),
     config,
   );

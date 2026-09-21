@@ -34,6 +34,10 @@ export default async function PrivatlivPage() {
         <li>• Din eventuelle bemærkning, fx dørkode eller etage</li>
       </ul>
       <p className="mt-3 text-lg">
+        Hvis du giver tilladelse i browseren, bruger jeg din position kun til at
+        foreslå den nærmeste adresse. Positionen gemmes først, når du booker.
+      </p>
+      <p className="mt-3 text-lg">
         Jeg beder ikke om og gemmer ikke CPR-nummer, helbredsoplysninger eller
         betalingskortoplysninger.
       </p>

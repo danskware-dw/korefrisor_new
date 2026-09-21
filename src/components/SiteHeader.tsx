@@ -4,6 +4,9 @@ import { getConfig } from "@/lib/runtime-config";
 
 const navigation = [
   { href: "/priser", label: "Priser" },
+  { href: "/gavekort", label: "Gavekort" },
+  { href: "/frisorer", label: "Frisører" },
+  { href: "/bliv-frisor", label: "Bliv frisør" },
   { href: "/for-parorende", label: "For pårørende" },
   { href: "/om-mig", label: "Om mig" },
   { href: "/kontakt", label: "Kontakt" },

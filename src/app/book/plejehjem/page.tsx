@@ -69,6 +69,7 @@ export default async function PlejehjemBookPage() {
       <hr className="my-10 border-line" />
       <CareHomeForm
         employees={config.employees.filter((employee) => employee.active)}
+        services={config.services}
         phone={config.phone}
         maxAdvanceDays={config.maxAdvanceDays}
         home={{
@@ -77,6 +78,8 @@ export default async function PlejehjemBookPage() {
           city: config.home.city,
           postalCode: config.home.postalCode,
         }}
+        travel={config.travel}
+        areaNames={config.areas.map((area) => area.name)}
       />
       <FaqList items={plejehjemSeo.faq} />
     </div>
