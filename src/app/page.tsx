@@ -41,7 +41,7 @@ const customerPaths = [
     title: "Book til mor eller far",
     text: "Brug deres adresse og dit telefonnummer. Du kan få faktura og påmindelse dagen før.",
     href: "/for-parorende",
-    cta: "Se pårørende-flow",
+    cta: "Se hvordan pårørende booker",
   },
   {
     eyebrow: "Flere samme sted",

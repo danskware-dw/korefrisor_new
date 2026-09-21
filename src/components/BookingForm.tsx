@@ -645,6 +645,8 @@ export function BookingForm({
                     service={service}
                     checked={selected.includes(service.id)}
                     onToggle={() => toggleService(service.id)}
+                    onConfirm={tryAdvance}
+                    confirmDisabled={!hasPrimary || !extrasReady}
                   />
                 </li>
               ))}

@@ -148,7 +148,11 @@ export default async function BehandlingPage({ params }: { params: Promise<Param
 
       {seo && <FaqList items={seo.faq} />}
 
-      <ServiceJsonLd service={service} siteUrl={config.siteUrl} />
+      <ServiceJsonLd
+        service={service}
+        siteUrl={config.siteUrl}
+        businessName={config.name}
+      />
 
       <p className="mt-12">
         {service.contactOnly ? (
@@ -173,14 +177,22 @@ export default async function BehandlingPage({ params }: { params: Promise<Param
   );
 }
 
-function ServiceJsonLd({ service, siteUrl }: { service: Service; siteUrl: string }) {
+function ServiceJsonLd({
+  service,
+  siteUrl,
+  businessName,
+}: {
+  service: Service;
+  siteUrl: string;
+  businessName: string;
+}) {
   const data = {
     "@context": "https://schema.org",
     "@type": "Service",
     name: service.name,
     description: service.description,
     serviceType: "Haircut",
-    provider: { "@type": "HairSalon", name: "FrisørHjem", url: siteUrl },
+    provider: { "@type": "HairSalon", name: businessName, url: siteUrl },
     areaServed: "Kastrup",
     ...(service.price > 0
       ? {

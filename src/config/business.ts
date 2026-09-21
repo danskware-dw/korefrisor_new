@@ -6,7 +6,7 @@
 import type { AppConfig, Service } from "./types";
 
 export const business: AppConfig = {
-  name: "FrisørHjem",
+  name: "Kørefrisøren",
   tagline: "Frisør der kører hjem til dig",
   ownerName: "Raed",
   yearsOfExperience: 4,

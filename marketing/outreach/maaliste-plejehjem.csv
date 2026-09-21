@@ -1,0 +1,15 @@
+prioritet,status,navn,adresse,postnr,by,kommune,telefon,email,boliger_ca,zone_km_skøn,noter,kontaktperson,sidst_kontakt,næste_skridt,resultat
+1,klar,Plejehjemmet Tagenshus,Falhøj 1,2770,Kastrup,Tårnby,32 46 46 20,,55,0-5,Kommunalt. Start her — tæt på base.,,,,Ring aktivitet / leder
+1,klar,Plejehjemmet Ugandavej,Ugandavej 149,2770,Kastrup,Tårnby,32 53 04 44,pluga.sf@taarnby.dk,32,0-5,Kommunalt. Lille — godt til pilot (4-6 beboere).,,,,Mail + ring
+1,klar,Plejehjemmet Pyrus Allé,Pyrus Allé 15,2770,Kastrup,Tårnby,32 50 05 21,plpyr.sf@taarnby.dk,48,0-5,Kommunalt.,,,,Ring
+2,klar,Plejehjemmet Irlandsvej,Irlandsvej 122,2770,Kastrup,Tårnby,32 46 82 46,plirl.sf@taarnby.dk,82-114,0-5,"Stor. Velkomstfolder nævner allerede 'Frisør' (tlf. 27 11 27 56) — spørg om afløser/ekstra kapacitet, ikke kun ny kontrakt. Leder: 32 46 82 48",,,,Ring leder / spørg ind til nuværende frisør
+2,klar,Plejehjemmet Løjtegårdsvej,Løjtegårdsvej 100 (også 98),2770,Kastrup,Tårnby,32 46 58 00,plloj.as@taarnby.dk,118-120,0-5,Største i Tårnby — sigt efter én afdeling først (fx 6-8 beboere).,,,,Ring afdelingskontor
+1,klar,Enggården,Engvej 20A,2791,Dragør,Dragør,32 89 04 80,,109,5-10,Dragør Kommunes plejebolig. Centerleder: 32 89 04 81. Afdelinger A-D har egne numre.,,,,Ring centerleder
+2,udforsk,Peder Lykke Centret,(tjek boligertilaeldre.kk.dk),2300,København S,København,,, ,10-20,KK Amager. Har frisør tilknyttet ifølge KK-siden — spørg om kapacitet/afløser.,,,,Find direkte telefon på boligertilaeldre.kk.dk
+2,udforsk,Bomi-Parken,Gyldenrisparken / nær Amagerbrogade,2300,København S,København,,, ,10-20,KK Amager. Har frisør tilknyttet ifølge KK-siden.,,,,Find direkte telefon
+2,udforsk,Røde Kors Hjemmet,Amagerbrogade 262/268,2300,København S,København,32 46 57 00,, ,10-20,Bekræft aktuelt tilbud og kontakt før pitch.,,,,Ring reception
+3,tom,,,,,,,,,,,Tilføj bosteder / ældreboliger i din radius
+3,tom,,,,,,,,,,,Tilføj bosteder / ældreboliger i din radius
+3,tom,,,,,,,,,,,Tilføj bosteder / ældreboliger i din radius
+3,tom,,,,,,,,,,,Tilføj bosteder / ældreboliger i din radius
+3,tom,,,,,,,,,,,Tilføj bosteder / ældreboliger i din radius

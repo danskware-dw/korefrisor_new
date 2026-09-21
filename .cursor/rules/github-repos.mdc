@@ -1,0 +1,15 @@
+---
+description: Always ask before creating any GitHub repository
+alwaysApply: true
+---
+
+# GitHub repositories
+
+Never create, transfer, or recreate a GitHub repository until the user has answered:
+
+1. **Where** it should live (account or org, and the repo name)
+2. **What kind of account** (personal login vs organization, and which exact login)
+
+Do not assume Raed22xm, danskware-dw, or any other account from git remotes or screenshots.
+
+If those two answers are missing, ask first and wait. This includes `gh repo create`, transfers, and creating a repo at an old URL after a transfer.
