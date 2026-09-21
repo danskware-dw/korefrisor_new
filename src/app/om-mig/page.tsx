@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FaqList } from "@/components/FaqList";
 import { SeoBody } from "@/components/SeoBody";
 import { omMigSeo } from "@/content/seo";
-import { isPlaceholderName } from "@/lib/placeholders";
+import { isPlaceholderName, isPlaceholderPhone } from "@/lib/placeholders";
 import { pageMetadata } from "@/lib/seo-meta";
 import { getConfig } from "@/lib/runtime-config";
 
@@ -35,6 +35,7 @@ export default async function OmMigPage() {
           alt="Frisør klipper en ældre kvindes hår i hendes egen stue."
           width={1024}
           height={768}
+          priority
           sizes="(min-width: 768px) 30rem, 92vw"
           className="aspect-4/3 w-full rounded-card border border-line object-cover"
         />
@@ -108,7 +109,7 @@ export default async function OmMigPage() {
 
         <FaqList items={omMigSeo.faq} />
 
-        <p className="mt-14">
+        <p className="mt-14 flex flex-wrap gap-4">
           <Link
             href="/book"
             data-btn
@@ -116,6 +117,15 @@ export default async function OmMigPage() {
           >
             Book en tid
           </Link>
+          {!isPlaceholderPhone(config.phone) && (
+            <a
+              href={`tel:${config.phone.replace(/\s/g, "")}`}
+              data-btn
+              className="inline-flex items-center rounded-lg border-2 border-brand px-8 py-4 text-xl font-semibold text-brand hover:bg-brand-light"
+            >
+              Ring {config.phone}
+            </a>
+          )}
         </p>
       </div>
     </div>

@@ -7,11 +7,13 @@ import type { ReactNode } from "react";
 export function Chrome({
   header,
   footer,
+  sticky,
   schema,
   children,
 }: {
   header: ReactNode;
   footer: ReactNode;
+  sticky: ReactNode;
   schema: ReactNode;
   children: ReactNode;
 }) {
@@ -19,6 +21,8 @@ export function Chrome({
   if (path.startsWith("/admin")) {
     return <>{children}</>;
   }
+
+  const showSticky = !path.startsWith("/book");
 
   return (
     <>
@@ -30,10 +34,11 @@ export function Chrome({
         Gå til indhold
       </a>
       {header}
-      <main id="indhold" className="flex-1">
+      <main id="indhold" className={showSticky ? "flex-1 pb-24 md:pb-0" : "flex-1"}>
         {children}
       </main>
       {footer}
+      {showSticky ? sticky : null}
       {schema}
     </>
   );

@@ -10,12 +10,13 @@ describe("placeholders", () => {
     expect(isPlaceholderPhone("+45 00 00 00 00")).toBe(true);
     expect(isPlaceholderPhone("00000000")).toBe(true);
     expect(isPlaceholderPhone("+45 12 34 56 78")).toBe(false);
+    expect(isPlaceholderPhone("+45 42 79 74 00")).toBe(false);
   });
 
   it("detects example emails and names", () => {
     expect(isPlaceholderEmail("kontakt@example.dk")).toBe(true);
     expect(isPlaceholderEmail("hej@korefrisoren.dk")).toBe(false);
     expect(isPlaceholderName("[RET DETTE: dit navn]")).toBe(true);
-    expect(isPlaceholderName("Anna Jensen")).toBe(false);
+    expect(isPlaceholderName("Raed")).toBe(false);
   });
 });

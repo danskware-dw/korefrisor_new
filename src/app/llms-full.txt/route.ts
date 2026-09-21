@@ -21,10 +21,11 @@ export async function GET() {
 Language: Danish primary, English understanding OK.
 Business type: Service-area mobile hairdresser (no salon).
 City: ${config.home.city}, postal ${config.home.postalCode}, Denmark.
+Owner: ${config.ownerName}.
 Years of experience: ${config.yearsOfExperience}+.
 
 ## One-sentence pitch
-${config.name} er en udekørende frisør i ${config.home.city}, der kører hjem til dig med klip, pensionistklip og børneklip.
+${config.name} er ${config.ownerName}s udekørende frisør i ${config.home.city}, der kører hjem til dig med klip, pensionistklip og børneklip.
 
 ## Key URLs
 - Home: ${config.siteUrl}/

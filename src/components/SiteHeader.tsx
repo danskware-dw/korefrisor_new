@@ -3,12 +3,10 @@ import { isPlaceholderPhone } from "@/lib/placeholders";
 import { getConfig } from "@/lib/runtime-config";
 
 const navigation = [
-  { href: "/behandlinger", label: "Behandlinger" },
   { href: "/priser", label: "Priser" },
-  { href: "/saadan-foregaar-det", label: "Sådan foregår det" },
-  { href: "/omraade", label: "Hvor jeg kører" },
   { href: "/for-parorende", label: "For pårørende" },
   { href: "/om-mig", label: "Om mig" },
+  { href: "/kontakt", label: "Kontakt" },
 ];
 
 export async function SiteHeader() {
@@ -40,7 +38,7 @@ export async function SiteHeader() {
         <Link
           href="/book"
           data-btn
-          className="inline-flex items-center rounded-lg bg-accent px-6 py-3 font-semibold text-white hover:bg-accent-dark"
+          className="hidden items-center rounded-lg bg-accent px-6 py-3 font-semibold text-white hover:bg-accent-dark md:inline-flex"
         >
           Book tid
         </Link>

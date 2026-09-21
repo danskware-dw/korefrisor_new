@@ -180,7 +180,7 @@ function ServiceJsonLd({ service, siteUrl }: { service: Service; siteUrl: string
     name: service.name,
     description: service.description,
     serviceType: "Haircut",
-    provider: { "@type": "HairSalon", name: "Kørefrisøren", url: siteUrl },
+    provider: { "@type": "HairSalon", name: "FrisørHjem", url: siteUrl },
     areaServed: "Kastrup",
     ...(service.price > 0
       ? {

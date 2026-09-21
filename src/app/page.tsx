@@ -6,7 +6,7 @@ import { TravelFeeTable } from "@/components/PriceTable";
 import { ServiceGrid } from "@/components/ServiceGrid";
 import { Testimonials } from "@/components/Testimonials";
 import { homeSeo } from "@/content/seo";
-import { isPlaceholderPhone } from "@/lib/placeholders";
+import { isPlaceholderName, isPlaceholderPhone } from "@/lib/placeholders";
 import { pageMetadata } from "@/lib/seo-meta";
 import { getConfig } from "@/lib/runtime-config";
 
@@ -15,25 +15,16 @@ export const metadata: Metadata = pageMetadata(homeSeo, "/");
 const steps = [
   {
     title: "Vælg behandling og tid",
-    text: "Du vælger klip, pensionistklip eller børneklip, skriver adressen og ser den låste pris inkl. kørsel. Flere samme sted får rabat, og kørsel tælles kun én gang.",
+    text: "Du vælger klip, pensionistklip eller børneklip, skriver adressen og ser den låste pris inkl. kørsel.",
   },
   {
-    title: "Jeg kører hjem til dig",
-    text: "Jeg kommer til aftalt tid med sakse, maskine, tæppe og produkter. Du skal kun finde en stol frem.",
+    title: "Find en stol frem",
+    text: "Jeg kommer til aftalt tid med sakse, maskine, kappe og tæppe. Du skal kun have en stol klar.",
   },
   {
     title: "Du betaler, når du booker",
-    text: "Du betaler med MobilePay, inden jeg kører. Pårørende kan få faktura. Afbud mindst 24 timer før er gratis — ellers 100 kr.",
+    text: "MobilePay inden jeg kører. Pårørende kan få faktura. Afbud mindst 24 timer før er gratis — ellers 100 kr.",
   },
-];
-
-const targetGroup = [
-  "Ældre, der ikke længere kører bil eller har svært ved trapper",
-  "Dig med gangbesvær, kørestol eller rollator",
-  "Børn, der er tryggere ved at blive klippet hjemme",
-  "Dig, der er syg eller er ved at komme til kræfter efter en operation",
-  "Beboere på plejehjem, bosteder og i ældreboliger",
-  "Dig, der bare hellere vil sidde i din egen stue",
 ];
 
 const heroTrust = [
@@ -62,7 +53,7 @@ const customerPaths = [
   {
     eyebrow: "Plejehjem og bosted",
     title: "Fast klippedag med én faktura",
-    text: "God løsning til flere beboere samme dag, fast ugedag og roligt tempo.",
+    text: "Flere beboere samme formiddag, fast ugedag og roligt tempo.",
     href: "/book/plejehjem",
     cta: "Aftal fælles besøg",
   },
@@ -72,6 +63,8 @@ export default async function Home() {
   const config = await getConfig();
   const tel = config.phone.replace(/\s/g, "");
   const showPhone = !isPlaceholderPhone(config.phone);
+  const showName = !isPlaceholderName(config.ownerName);
+  const homeServices = config.services.filter((service) => !service.addon);
 
   return (
     <>
@@ -85,8 +78,8 @@ export default async function Home() {
               {homeSeo.h1}
             </h1>
             <p className="mt-5 text-xl text-ink-soft">
-              Hjemmeklip for ældre, børn og dig der helst vil blive hjemme — med fast
-              pris, synlig kørsel og rolig behandling i din egen stol.
+              Fast pris inkl. kørsel. Rolig klipning i din egen stol — til ældre, børn
+              og dig der helst vil blive hjemme.
             </p>
 
             <ul className="mt-6 grid gap-3 text-lg sm:grid-cols-3">
@@ -105,25 +98,26 @@ export default async function Home() {
               <Link
                 href="/book"
                 data-btn
-                className="inline-flex flex-1 items-center justify-center rounded-xl bg-accent px-8 py-4 text-xl font-bold text-white shadow-sm hover:bg-accent-dark sm:flex-none"
+                className="inline-flex flex-1 items-center justify-center rounded-xl bg-accent px-8 py-4 text-xl font-bold text-white hover:bg-accent-dark sm:flex-none"
               >
                 Book hjemmeklip
               </Link>
-              <Link
-                href="/priser"
-                data-btn
-                className="inline-flex flex-1 items-center justify-center rounded-xl border-2 border-brand px-8 py-4 text-xl font-bold text-brand hover:bg-brand-light sm:flex-none"
-              >
-                Se priser
-              </Link>
-              {showPhone && (
+              {showPhone ? (
                 <a
                   href={`tel:${tel}`}
                   data-btn
-                  className="inline-flex items-center justify-center rounded-xl px-6 py-4 text-lg font-semibold text-brand underline underline-offset-4 hover:bg-brand-light"
+                  className="inline-flex flex-1 items-center justify-center rounded-xl border-2 border-brand px-8 py-4 text-xl font-bold text-brand hover:bg-brand-light sm:flex-none"
                 >
                   Ring {config.phone}
                 </a>
+              ) : (
+                <Link
+                  href="/priser"
+                  data-btn
+                  className="inline-flex flex-1 items-center justify-center rounded-xl border-2 border-brand px-8 py-4 text-xl font-bold text-brand hover:bg-brand-light sm:flex-none"
+                >
+                  Se priser
+                </Link>
               )}
             </div>
 
@@ -139,10 +133,6 @@ export default async function Home() {
                 ))}
               </ul>
             </div>
-
-            <p className="mt-7 max-w-xl text-lg font-semibold text-ink-soft">
-              {config.yearsOfExperience}+ års erfaring med rolige klip hjemme hos kunden.
-            </p>
           </div>
 
           <div className="relative">
@@ -153,10 +143,12 @@ export default async function Home() {
               height={768}
               priority
               sizes="(min-width: 768px) 30rem, 92vw"
-              className="aspect-4/3 w-full rounded-[1.5rem] border border-line object-cover shadow-sm"
+              className="aspect-4/3 w-full rounded-[1.5rem] border border-line object-cover"
             />
-            <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-surface/95 p-4 shadow-sm backdrop-blur">
-              <p className="font-bold text-ink">Du skal kun finde en stol frem</p>
+            <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-surface/95 p-4">
+              <p className="font-bold text-ink">
+                {showName ? `${config.ownerName} kommer hjem til dig` : "Du skal kun finde en stol frem"}
+              </p>
               <p className="mt-1 text-base text-ink-soft">
                 Jeg har kappe, tæppe, sakse og maskine med.
               </p>
@@ -165,39 +157,40 @@ export default async function Home() {
         </div>
       </section>
 
-      <section aria-labelledby="forbered" className="mx-auto max-w-5xl px-4 py-16">
-        <div className="grid gap-8 rounded-[1.5rem] border border-line bg-surface p-6 shadow-sm sm:p-8 md:grid-cols-[0.9fr_1.1fr] md:items-center">
-          <div>
-            <p className="font-semibold text-accent">Før besøget</p>
-            <h2 id="forbered" className="mt-2 text-3xl font-bold sm:text-4xl">
-              Roligt hjemmebesøg uden salonstress
-            </h2>
+      {showName && (
+        <section aria-labelledby="hvem" className="mx-auto max-w-5xl px-4 py-16">
+          <div className="grid gap-6 rounded-[1.5rem] border border-line bg-surface p-6 sm:p-8 md:grid-cols-[1fr_auto] md:items-center">
+            <div>
+              <p className="font-semibold text-accent">Hvem kommer ind ad døren</p>
+              <h2 id="hvem" className="mt-2 text-3xl font-bold sm:text-4xl">
+                Jeg hedder {config.ownerName}
+              </h2>
+              <p className="mt-3 text-lg text-ink-soft">
+                Én frisør, samme person, med eget udstyr i bilen. {config.yearsOfExperience}+ års
+                erfaring med rolige klip hjemme hos kunden. Jeg farver ikke — jeg klipper,
+                sidder gerne ved en kørestol, og fejer op bagefter.
+              </p>
+            </div>
+            <Link
+              href="/om-mig"
+              className="inline-flex items-center justify-center rounded-xl border-2 border-brand px-6 py-3 font-bold text-brand hover:bg-brand-light"
+            >
+              Mere om mig
+            </Link>
           </div>
-          <ul className="grid gap-3 text-lg text-ink-soft sm:grid-cols-3 md:grid-cols-1">
-            <li className="flex gap-3">
-              <CheckIcon /> Find en almindelig stol med lidt plads omkring.
-            </li>
-            <li className="flex gap-3">
-              <CheckIcon /> Jeg tager udstyr, kappe og tæppe med.
-            </li>
-            <li className="flex gap-3">
-              <CheckIcon /> Du ser prisen inkl. kørsel, før du bekræfter.
-            </li>
-          </ul>
-        </div>
-      </section>
+        </section>
+      )}
 
-      <section aria-labelledby="vaelg-vej" className="mx-auto max-w-5xl px-4 py-16 pt-0">
-        <div className="rounded-[1.5rem] border border-line bg-canvas p-6 shadow-sm sm:p-8">
+      <section aria-labelledby="vaelg-vej" className="mx-auto max-w-5xl px-4 pb-16">
+        <div className="rounded-[1.5rem] border border-line bg-canvas p-6 sm:p-8">
           <div className="max-w-2xl">
             <p className="font-semibold text-accent">Vælg den nemmeste vej</p>
             <h2 id="vaelg-vej" className="mt-2 text-3xl font-bold sm:text-4xl">
-              Hurtigere booking for de mest almindelige situationer
+              Pårørende, familie eller plejehjem
             </h2>
             <p className="mt-3 text-lg text-ink-soft">
-              De fleste bookinger handler enten om en pårørende, flere samme adresse eller et
-              fast besøg på plejehjem. Vælg den vej, der passer bedst, så slipper du for
-              unødige spørgsmål.
+              De fleste bookinger handler om én af de tre. Vælg den vej, der passer, så
+              slipper du for unødige spørgsmål.
             </p>
           </div>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
@@ -205,7 +198,7 @@ export default async function Home() {
               <Link
                 key={path.title}
                 href={path.href}
-                className="group flex min-h-full flex-col rounded-card border border-line bg-surface p-5 transition hover:-translate-y-0.5 hover:border-brand hover:shadow-sm"
+                className="group flex min-h-full flex-col rounded-card border border-line bg-surface p-5 transition hover:border-brand"
               >
                 <span className="text-sm font-bold uppercase tracking-[0.12em] text-brand">
                   {path.eyebrow}
@@ -221,15 +214,19 @@ export default async function Home() {
         </div>
       </section>
 
-      <section aria-labelledby="hvad" className="mx-auto max-w-3xl px-4 py-16">
-        <h2 id="hvad" className="text-3xl font-bold sm:text-4xl">
-          Hjemmeklip, pensionistklip og børneklip
-        </h2>
-        {homeSeo.paragraphs.slice(2).map((text) => (
-          <p key={text.slice(0, 40)} className="mt-4 text-lg text-ink-soft">
-            {text}
+      <section aria-labelledby="behandlinger" className="bg-surface">
+        <div className="mx-auto max-w-5xl px-4 py-16">
+          <h2 id="behandlinger" className="text-3xl font-bold sm:text-4xl">
+            Klip, pensionistklip og børneklip
+          </h2>
+          <p className="mt-3 max-w-2xl text-lg text-ink-soft">
+            Tre klip. Kørslen lægges oven i efter afstanden, og du ser den samlede pris,
+            inden du bekræfter. Skæg, pandehår og bryn vælges som tillæg i bookingen.
           </p>
-        ))}
+          <div className="mt-10">
+            <ServiceGrid services={homeServices} phone={config.phone} />
+          </div>
+        </div>
       </section>
 
       <section aria-labelledby="saadan" className="mx-auto max-w-5xl px-4 py-16">
@@ -250,25 +247,14 @@ export default async function Home() {
             </li>
           ))}
         </ol>
+        <p className="mt-6 text-lg">
+          <Link href="/saadan-foregaar-det" className="font-semibold text-brand underline">
+            Se hele forløbet
+          </Link>
+        </p>
       </section>
 
-      <section aria-labelledby="behandlinger" className="bg-surface">
-        <div className="mx-auto max-w-5xl px-4 py-16">
-          <h2 id="behandlinger" className="text-3xl font-bold sm:text-4xl">
-            Det kan jeg lave hjemme hos dig
-          </h2>
-          <p className="mt-3 max-w-2xl text-lg text-ink-soft">
-            Jeg holder det enkelt: klip, pensionistklip og børneklip. Du kan lægge skæg,
-            pandehår eller bryn til. Kørslen lægges oven i efter afstanden, og du ser den
-            samlede pris, inden du bekræfter.
-          </p>
-          <div className="mt-10">
-            <ServiceGrid services={config.services} phone={config.phone} />
-          </div>
-        </div>
-      </section>
-
-      <section aria-labelledby="hjemme-vs-salon" className="mx-auto max-w-5xl px-4 py-16">
+      <section aria-labelledby="hjemme-vs-salon" className="mx-auto max-w-5xl px-4 pb-16">
         <h2 id="hjemme-vs-salon" className="text-3xl font-bold sm:text-4xl">
           Hjemmeklip eller salon?
         </h2>
@@ -303,66 +289,21 @@ export default async function Home() {
               </tr>
               <tr className="border-b border-line">
                 <th scope="row" className="py-4 pr-4 font-medium text-ink">
-                  Tempo
-                </th>
-                <td className="py-4 pr-4">Roligere, især pensionistklip</td>
-                <td className="py-4">Ofte mere travlt i stolen</td>
-              </tr>
-              <tr className="border-b border-line">
-                <th scope="row" className="py-4 pr-4 font-medium text-ink">
                   Gangbesvær / kørestol
                 </th>
                 <td className="py-4 pr-4">Klip i din stol eller stue</td>
                 <td className="py-4">Kan være svært med trapper og venteværelse</td>
               </tr>
-              <tr className="border-b border-line">
+              <tr>
                 <th scope="row" className="py-4 pr-4 font-medium text-ink">
                   Pris
                 </th>
                 <td className="py-4 pr-4">Behandling + evt. kørsel (synlig før booking)</td>
                 <td className="py-4">Kun behandling — plus din egen transport</td>
               </tr>
-              <tr>
-                <th scope="row" className="py-4 pr-4 font-medium text-ink">
-                  Bedst til
-                </th>
-                <td className="py-4 pr-4">Ældre, børn, dig der vil blive hjemme</td>
-                <td className="py-4">Dig der gerne går i byen til frisør</td>
-              </tr>
             </tbody>
           </table>
         </div>
-        <p className="mt-6 text-lg text-ink-soft">
-          <strong className="font-semibold text-ink">Kort sagt:</strong> Vælg hjemmeklip,
-          hvis transport eller ventetid er besværligt. Vælg salon, hvis du hellere vil ud
-          og synes om stemningen dér.
-        </p>
-      </section>
-
-      <section aria-labelledby="til-hvem" className="mx-auto max-w-3xl px-4 py-16">
-        <h2 id="til-hvem" className="text-3xl font-bold sm:text-4xl">
-          Hvem kommer jeg ud til?
-        </h2>
-        <p className="mt-4 text-lg text-ink-soft">
-          Jeg klipper alle, men jeg er her især for dig, hvis det er blevet besværligt at
-          komme hen til en salon — og for børn, der har det bedst hjemme.
-        </p>
-        <ul className="mt-6 space-y-3 text-lg">
-          {targetGroup.map((item) => (
-            <li key={item} className="flex gap-3">
-              <CheckIcon />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-6 text-lg text-ink-soft">
-          Er det en pårørende, du booker for: deres adresse, dit telefonnummer, faktura
-          til dig og e-mail dagen før.{" "}
-          <Link href="/for-parorende" className="font-semibold text-brand underline">
-            Book til mor eller far
-          </Link>
-          .
-        </p>
       </section>
 
       <section aria-labelledby="koersel" className="bg-surface">
@@ -373,27 +314,18 @@ export default async function Home() {
             </h2>
             <p className="mt-4 text-lg text-ink-soft">
               De første {config.travel.freeRadiusKm} km fra {config.home.city} er gratis.
-              Derefter kommer et fast tillæg efter zone. Du ser ruten og den låste total,
-              før du bekræfter. Flere samme sted: 50 kr rabat pr. ekstra person, kørsel
-              kun én gang.
+              Derefter et fast tillæg efter zone. Du ser ruten og den låste total, før du
+              bekræfter. Flere samme sted: 50 kr rabat pr. ekstra person, kørsel kun én gang.
             </p>
             <p className="mt-4 text-lg">
               <Link href="/omraade" className="font-semibold text-brand underline">
                 Se kortet over mit område
               </Link>
+              {" · "}
+              <Link href="/priser" className="font-semibold text-brand underline">
+                Alle priser
+              </Link>
             </p>
-            <ul className="mt-6 flex flex-wrap gap-2">
-              {config.areas.map((area) => (
-                <li key={area.slug}>
-                  <Link
-                    href={`/frisor/${area.slug}`}
-                    className="inline-flex min-h-12 items-center rounded-lg border border-line bg-canvas px-4 font-medium hover:border-brand"
-                  >
-                    {area.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </div>
 
           <div className="rounded-card border border-line bg-canvas p-6">
@@ -406,7 +338,7 @@ export default async function Home() {
       <Faq items={homeSeo.faq} />
 
       <section className="bg-brand text-white">
-        <div className="mx-auto max-w-3xl px-4 py-16 pb-28 text-center md:pb-16">
+        <div className="mx-auto max-w-3xl px-4 py-16 text-center">
           <h2 className="text-3xl font-bold sm:text-4xl">Skal jeg komme forbi?</h2>
           <p className="mt-4 text-xl text-white/90">
             Book på to minutter. Du ser prisen, før du bekræfter.
@@ -438,25 +370,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-surface/95 p-3 shadow-[0_-8px_30px_rgba(12,74,110,0.12)] backdrop-blur md:hidden">
-        <div className="mx-auto flex max-w-5xl gap-3">
-          <Link
-            href="/book"
-            data-btn
-            className="inline-flex flex-1 items-center justify-center rounded-xl bg-accent px-5 py-3 font-bold text-white hover:bg-accent-dark"
-          >
-            Book hjemmeklip
-          </Link>
-          <Link
-            href="/priser"
-            data-btn
-            className="inline-flex items-center justify-center rounded-xl border border-line px-4 py-3 font-bold text-brand hover:bg-brand-light"
-          >
-            Pris
-          </Link>
-        </div>
-      </div>
     </>
   );
 }

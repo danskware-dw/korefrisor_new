@@ -4,6 +4,7 @@ import "./globals.css";
 import { business } from "@/config/business";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { SiteStickyCta } from "@/components/SiteStickyCta";
 import { LocalBusinessSchema } from "@/components/LocalBusinessSchema";
 import { Chrome } from "@/components/Chrome";
 
@@ -85,6 +86,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Chrome
           header={<SiteHeader />}
           footer={<SiteFooter />}
+          sticky={<SiteStickyCta />}
           schema={<LocalBusinessSchema />}
         >
           {children}

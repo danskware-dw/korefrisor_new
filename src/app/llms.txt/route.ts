@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getConfig } from "@/lib/runtime-config";
+import { isPlaceholderEmail, isPlaceholderPhone } from "@/lib/placeholders";
 
 /** Kort tekstfil til AI-søgemaskiner (ChatGPT, Gemini, Perplexity, Google AI). */
 export async function GET() {
@@ -15,7 +16,7 @@ export async function GET() {
 > Mobile hairdresser for in-home haircuts in Greater Copenhagen.
 
 ## Summary
-${config.name} is a service-area mobile hairdresser based in ${config.home.city} (${config.home.postalCode}). There is no walk-in salon. The hairdresser drives to the customer's home with their own equipment. Focus: adults (klip), seniors/pensioners (pensionistklip, wheelchair-friendly), children under 12 (børneklip), and care homes.
+${config.name} is a service-area mobile hairdresser based in ${config.home.city} (${config.home.postalCode}). There is no walk-in salon. The hairdresser is ${config.ownerName}, who drives to the customer's home with their own equipment. Focus: adults (klip), seniors/pensioners (pensionistklip, wheelchair-friendly), children under 12 (børneklip), and care homes.
 
 ## Services and prices (DKK)
 ${services}
@@ -28,9 +29,7 @@ ${areas}.
 - Book online: ${config.siteUrl}/book
 - Book for a relative: ${config.siteUrl}/book?parorende=1
 - Care home visit: ${config.siteUrl}/book/plejehjem
-- Phone: ${config.phone}
-- Email: ${config.email}
-- Pay with MobilePay at booking to ${config.mobilePay}, or invoice to the relative
+${isPlaceholderPhone(config.phone) ? "" : `- Phone: ${config.phone}\n`}${isPlaceholderEmail(config.email) ? "" : `- Email: ${config.email}\n`}- Pay with MobilePay at booking${config.mobilePay && config.mobilePay !== "000000" ? ` to ${config.mobilePay}` : ""}, or invoice to the relative
 - Extra person same visit: 50 DKK off each extra cut, travel charged once, locked total on a map
 - Standing appointments every 4/6/8 weeks; email the day before
 - Free cancel ≥${config.cancelFreeHours}h before; late cancel fee ${config.lateCancelFeeKr} DKK

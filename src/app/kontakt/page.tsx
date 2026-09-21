@@ -45,6 +45,11 @@ export default async function KontaktPage() {
             Skriv til {config.email}
           </a>
         )}
+        {!showEmail && (
+          <p className="text-center text-lg text-ink-soft">
+            E-mail kommer snart. Book online, eller ring {config.phone}.
+          </p>
+        )}
       </div>
 
       <h2 className="mt-12 text-2xl font-bold sm:text-3xl">Hvor kører jeg ud fra?</h2>

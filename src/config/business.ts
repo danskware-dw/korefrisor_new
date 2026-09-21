@@ -6,12 +6,12 @@
 import type { AppConfig, Service } from "./types";
 
 export const business: AppConfig = {
-  name: "Kørefrisøren",
+  name: "FrisørHjem",
   tagline: "Frisør der kører hjem til dig",
-  ownerName: "[RET DETTE: dit navn]",
+  ownerName: "Raed",
   yearsOfExperience: 4,
 
-  phone: "+45 00 00 00 00",
+  phone: "+45 42 79 74 00",
   email: "kontakt@example.dk",
   mobilePay: "000000",
   cvr: "",
@@ -45,7 +45,7 @@ export const business: AppConfig = {
   employees: [
     {
       id: "ejer",
-      name: "[RET DETTE: dit navn]",
+      name: "Raed",
       role: "Frisør",
       image: "/behandlinger/hjemmebesoeg.png",
       imageAlt: "Frisør klar til hjemmebesøg",
